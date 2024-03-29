@@ -1,0 +1,22 @@
+{
+  "name": "Adventure Pos",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "test": "echo Error: no test specified",
+    "build": "node config.js",
+    "watch": "node config.js --watch"
+  },
+  "keywords": [],
+  "author": "Jorge Morla",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.20.2"
+  }
+}
