@@ -1,4 +1,4 @@
-package com.bytetechsolutions.venturepos.controller;
+package com.bytetechsolutions.adventurepos.controller;
 
 import java.io.IOException;
 import java.util.Map;
@@ -8,7 +8,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.bytetechsolutions.venturepos.model.ViewDescriptor;
+import com.bytetechsolutions.adventurepos.model.ViewDescriptor;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

@@ -1,4 +1,4 @@
-package com.bytetechsolutions.venturepos.model;
+package com.bytetechsolutions.adventurepos.model;
 
 import lombok.Getter;
 import lombok.Setter;

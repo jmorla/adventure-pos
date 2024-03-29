@@ -1,10 +1,10 @@
-package com.skeleton.skeleton;
+package com.bytetechsolutions.adventurepos;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SkeletonApplicationTests {
+class AdventurePosApplicationTests {
 
 	@Test
 	void contextLoads() {
