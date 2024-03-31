@@ -1,3 +1,9 @@
 spring:
   application:
     name: Adventure Pos
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
