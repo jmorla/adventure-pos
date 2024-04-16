@@ -10,20 +10,14 @@ import org.springframework.web.servlet.ModelAndView;
     title = "Welcome | Adventure POS",
     entryPoint = "welcome.jsx",
     scripts = "welcome.js",
-    stylesheets = "welcome.css"
+    stylesheets = { "/welcome.css", "/style.css" }
 )
 @Controller
 @RequestMapping("/welcome")
-public class WelcomeController extends AbstractPage {
+public class WelcomeController {
 
     @GetMapping
     public ModelAndView handleGet(ModelAndView model) {
         return model;
-    }
-
-    @Override
-    public String getDescriptorName() {
-       return WelcomeController.class.getCanonicalName();
-    }
-    
+    }    
 }

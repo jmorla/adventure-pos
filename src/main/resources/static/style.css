@@ -354,6 +354,12 @@ h6 {
 /*--------------------------------------------------------------
 # Header
 --------------------------------------------------------------*/
+@media (min-width: 1200px) {
+.logo2 {
+    width: 280px;
+}
+}
+
 .logo {
   line-height: 1;
 }
@@ -363,7 +369,12 @@ h6 {
   height: 110px;
 }
 
-.logo span {
+.logo2 img {
+  width: 100px;
+  height: 55px;
+}
+
+.logo2 span {
   font-size: 26px;
   font-weight: 700;
   color: #012970;
@@ -1224,4 +1235,9 @@ h6 {
   text-align: center;
   font-size: 13px;
   color: #012970;
+}
+
+.logout-button {
+  border: none;
+  background: none;
 }

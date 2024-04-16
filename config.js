@@ -17,6 +17,12 @@ const config = {
     entryPoints: [...getDescrivedEntries()],
     bundle: true,
     outdir: "target/classes/static",
+    loader: {
+        '.png': 'dataurl',
+        '.svg': 'text',
+        '.woff2': 'dataurl',
+        '.woff': 'dataurl'
+    },
 };
 
 if(production) {
