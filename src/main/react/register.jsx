@@ -1,5 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/js/bootstrap';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import "primereact/resources/themes/lara-light-cyan/theme.css";
+import 'primeicons/primeicons.css';
 
 export function register(RootComponent, containerId = "root") {
     const container = document.getElementById(containerId);

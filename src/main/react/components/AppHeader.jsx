@@ -29,34 +29,11 @@ export default function AppHeader() {
               <li>
                 <hr className="dropdown-divider" />
               </li>
-
               <li>
-                <a className="dropdown-item d-flex align-items-center" href="users-profile.html">
-                  <i className="bi bi-person"></i>
-                  <span>Mi perfil</span>
-                </a>
-              </li>
-              <li>
-                <hr className="dropdown-divider" />
-              </li>
-
-              <li>
-                <a className="dropdown-item d-flex align-items-center" href="users-profile.html">
-                  <i className="bi bi-gear"></i>
-                  <span>Configuracion</span>
-                </a>
-              </li>
-              <li>
-                <hr className="dropdown-divider" />
-              </li>
-
-              <li>
-                <a className="dropdown-item d-flex align-items-center" href="#">
-                  <form method="post" action="/logout">
-                    <i className="bi bi-box-arrow-right"></i>
-                    <button className='logout-button' type="submit">Cerrar Sesion</button>
-                  </form>
-                </a>
+                <form method="post" action="/logout" className='dropdown-item d-flex align-items-center'>
+                  <i className="bi bi-box-arrow-right"></i>
+                  <button className='logout-button' type="submit">Cerrar Sesion</button>
+                </form>
               </li>
 
             </ul>

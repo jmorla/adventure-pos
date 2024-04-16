@@ -4,29 +4,30 @@ function AppSidebar() {
   return (
     <aside id="sidebar" className="sidebar">
 
-    <ul className="sidebar-nav" id="sidebar-nav">
+      <ul className="sidebar-nav" id="sidebar-nav">
+        <li className="nav-item">
+          <a className="nav-link collapsed" href="/appointments">
+            <i className="bi bi-calendar-check"></i>
+            <span>Check-In</span>
+          </a>
+        </li>
 
-      <li className="nav-item">
-        <a className="nav-link collapsed" href="index.html">
-          <i className="bi bi-grid"></i>
-          <span>Dashboard</span>
-        </a>
-      </li>
-      <li className="nav-item">
-        <a className="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-          <i className="bi bi-menu-button-wide"></i><span>Components</span><i className="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="components-nav" className="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="components-alerts.html">
-              <i className="bi bi-circle"></i><span>Alerts</span>
-            </a>
-          </li>
-        </ul>
-      </li>
-    </ul>
+        <li className="nav-item">
+          <a className="nav-link collapsed" href="/patients">
+            <i className="bi bi-people"></i>
+            <span>Pacientes</span>
+          </a>
+        </li>
 
-  </aside>
+        <li className="nav-item">
+          <a className="nav-link collapsed" href="/appointments">
+            <i className="bi bi-calendar3"></i>
+            <span>Historial de Citas</span>
+          </a>
+        </li>
+      </ul>
+
+    </aside>
   )
 }
 

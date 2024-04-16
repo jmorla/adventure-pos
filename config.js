@@ -21,7 +21,10 @@ const config = {
         '.png': 'dataurl',
         '.svg': 'text',
         '.woff2': 'dataurl',
-        '.woff': 'dataurl'
+        '.woff': 'dataurl',
+        '.eot': 'dataurl',
+        '.ttf': 'dataurl',
+        '.eifix': 'dataurl'
     },
 };
 
