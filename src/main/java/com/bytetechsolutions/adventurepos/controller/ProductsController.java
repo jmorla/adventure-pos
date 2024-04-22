@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @View(
-    title = "Patients | Adventure POS",
-    entryPoint = "patients.jsx",
-    scripts = "patients.js",
-    stylesheets = { "/patients.css", "/style.css" }
+    title = "Productos | Adventure POS",
+    entryPoint = "products.jsx",
+    scripts = "products.js",
+    stylesheets = { "/products.css", "/style.css" }
 )
 @Controller
-@RequestMapping("/patients")
-public class PatientsController {
+@RequestMapping("/products")
+public class ProductsController {
     
     @GetMapping
     public ModelAndView handleGet(ModelAndView model) {

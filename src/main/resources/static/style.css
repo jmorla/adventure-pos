@@ -1241,3 +1241,14 @@ h6 {
   border: none;
   background: none;
 }
+
+.product-image {
+  max-height: 46px;
+}
+
+.p-datatable .p-datatable-tbody > tr > td {
+  text-align: left;
+  border: 1px solid #e5e7eb;
+  border-width: 0 0 1px 0;
+  padding: 1rem 1rem;
+}
