@@ -1,4 +1,4 @@
-package com.bytetechsolutions.domain;
+package com.bytetechsolutions.adventurepos.domain;
 
 import java.util.List;
 

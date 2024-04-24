@@ -1,13 +1,13 @@
-package com.bytetechsolutions.service;
+package com.bytetechsolutions.adventurepos.service;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import com.bytetechsolutions.domain.PagedRequest;
-import com.bytetechsolutions.domain.PagedResponse;
-import com.bytetechsolutions.domain.ProductRecord;
-import com.bytetechsolutions.entitites.Product;
-import com.bytetechsolutions.repository.ProductRepository;
+import com.bytetechsolutions.adventurepos.domain.PagedRequest;
+import com.bytetechsolutions.adventurepos.domain.PagedResponse;
+import com.bytetechsolutions.adventurepos.domain.ProductRecord;
+import com.bytetechsolutions.adventurepos.entitites.Product;
+import com.bytetechsolutions.adventurepos.repositories.ProductRepository;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -24,7 +24,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public PagedResponse<ProductRecord> findProducts(PagedRequest request) {
         log.info("search products: {}", request);
-        return PagedResponse.from(productRepository.findAll(PageRequest.of(0, 0))
+        return PagedResponse.from(productRepository.findAll(PageRequest.of(request.page(), request.size()))
         .map(this::mapProductRecord));
     }
 

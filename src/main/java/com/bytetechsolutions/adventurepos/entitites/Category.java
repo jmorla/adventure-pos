@@ -1,4 +1,4 @@
-package com.bytetechsolutions.entitites;
+package com.bytetechsolutions.adventurepos.entitites;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

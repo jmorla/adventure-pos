@@ -24,7 +24,7 @@ const TableHeader = () => {
 };
 
 const ActionsMenu = (row) => (
-    <Button style={{ borderRadius: '4px' }} icon="pi pi-pencil" rounded outlined severity="success" />
+    <button className="btn btn-outline-success btn-sm"><i className="pi pi-pencil"></i></button>
 )
 
 const ProductName = (row) => (
@@ -36,16 +36,16 @@ const ProductName = (row) => (
 
 const StatusBadge = (row) => {
     const isActive = (status) => (
-        status != null && status.toLowerCase() === 'activo'
+        status != null && status === 'ACTIVE'
     );
     return <span className={"badge rounded-pill " + (isActive(row.status) ? 'bg-primary' : 'bg-secondary')}>{row.status}</span>
 }
 
 function ProductsTable() {
-    const { data: products } = useFetch("/api/products");
+    const { data } = useFetch("/api/products?page=0&size=100");
     return (
-        <DataTable header={TableHeader} paginator rows={7} rowsPerPageOptions={[7, 10, 25, 50]} size="small"
-            value={products} tableStyle={{ minWidth: '50rem' }}
+        <DataTable header={TableHeader} paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]}
+            value={data?.content} tableStyle={{ minWidth: '50rem' }}
             paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink">
             <Column style={{ width: '20%' }} body={(row) => <ProductName {...row} />} header="Nombre del Producto"></Column>
             <Column field="price" header="Precio"></Column>

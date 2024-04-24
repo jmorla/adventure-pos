@@ -1,4 +1,4 @@
-package com.bytetechsolutions.domain;
+package com.bytetechsolutions.adventurepos.domain;
 
 public record PagedRequest(int page, int size) {
     

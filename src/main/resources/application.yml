@@ -13,7 +13,6 @@ spring:
       auto-commit: false
       schema: public
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
     database: POSTGRESQL
     show-sql: true
     properties:

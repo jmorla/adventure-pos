@@ -20,7 +20,7 @@ const ProductsPage = () => {
                 <div className="row">
                     <div className="col-lg-12">
                         <div className="card">
-                            <div className="card-body py-4">
+                            <div className="card-body py-3">
                                 <ProductsTable />
                             </div>
                         </div>

@@ -1,16 +1,14 @@
 package com.bytetechsolutions.adventurepos.controller;
 
-import java.util.List;
-
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bytetechsolutions.domain.PagedRequest;
-import com.bytetechsolutions.domain.PagedResponse;
-import com.bytetechsolutions.domain.ProductRecord;
-import com.bytetechsolutions.service.ProductService;
+import com.bytetechsolutions.adventurepos.domain.PagedRequest;
+import com.bytetechsolutions.adventurepos.domain.PagedResponse;
+import com.bytetechsolutions.adventurepos.domain.ProductRecord;
+import com.bytetechsolutions.adventurepos.service.ProductService;
 
 import lombok.AllArgsConstructor;
 
