@@ -3,9 +3,6 @@ import { register } from "./register";
 import AdminLayout from "./components/AdminLayout";
 import ProductsTable from "./components/ProductsTable";
 
-
-
-
 const ProductsPage = () => {
     return (
         <main id="main" className="main">

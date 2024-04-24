@@ -19,5 +19,5 @@ public class LoginController {
     @GetMapping
     public ModelAndView handleGet(ModelAndView model) {
         return model;
-    } 
+    }
 }

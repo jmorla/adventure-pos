@@ -19,5 +19,5 @@ public class ProductsController {
     @GetMapping
     public ModelAndView handleGet(ModelAndView model) {
         return model;
-    }  
+    } 
 }

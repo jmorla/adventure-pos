@@ -3,65 +3,22 @@ import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
+import useFetch from "../hooks/useFetch";
 
-const products = [
-    {
-        name: "Cocacola 20-Oz",
-        price: "RD$35.00",
-        quantity: "60",
-        cost: "RD$22.00",
-        category: "Bebidas",
-        status: "Activo",
-        photo: '/img/cocacola.png'
-    },
-    {
-        name: "Taqueritos Pequenos",
-        price: "RD$25.00",
-        quantity: "55",
-        cost: "RD$17.00",
-        category: "Snacks",
-        status: "Activo",
-        photo: '/img/taqueritos.png'
-    },
-    {
-        name: "Caja Chocolate Mune",
-        price: "RD$70.00",
-        quantity: "35",
-        cost: "RD$50.00",
-        category: "Comida",
-        status: "Inactivo",
-    },
-    {
-        name: "Caja Chocolate Mune",
-        price: "RD$70.00",
-        quantity: "35",
-        cost: "RD$50.00",
-        category: "Comida",
-        status: "Inactivo",
-    },
-    {
-        name: "Caja Chocolate Mune",
-        price: "RD$70.00",
-        quantity: "35",
-        cost: "RD$50.00",
-        category: "Comida",
-        status: "Inactivo",
-    },    {
-        name: "Caja Chocolate Mune",
-        price: "RD$70.00",
-        quantity: "35",
-        cost: "RD$50.00",
-        category: "Comida",
-        status: "Inactivo",
-    }
-]
 
 const TableHeader = () => {
     return (
-        <div className="d-flex justify-content-start">
-            <span className="p-input-icon-left">
-                <InputText placeholder="Buscar productos" />
-            </span>
+        <div className="row">
+            <div className="d-flex col justify-content-start">
+                <span className="p-input-icon-left">
+                    <InputText placeholder="Buscar productos" />
+                </span>
+                <button className="btn btn-primary mx-2"><i className="bi bi-search"></i></button>
+            </div>
+            <div className="d-flex col justify-content-end">
+                <button className="btn btn-outline-secondary mx-2"><i className="bi bi-card-checklist"></i> Gestionar Categorias</button>
+                <button className="btn btn-primary"><i className="bi bi-bag-plus"></i> Crear producto</button>
+            </div>
         </div>
     );
 };
@@ -72,7 +29,7 @@ const ActionsMenu = (row) => (
 
 const ProductName = (row) => (
     <div className="d-flex align-items-center justify-content-start">
-        <img src={row.photo || 'img/products.png'} className="img-thumbnail rounded product-image" />
+        <img src={row.photoUrl || 'img/products.png'} className="img-thumbnail rounded product-image" />
         <span className="d-none d-md-block ps-2">{row.name}</span>
     </div>
 )
@@ -85,6 +42,7 @@ const StatusBadge = (row) => {
 }
 
 function ProductsTable() {
+    const { data: products } = useFetch("/api/products");
     return (
         <DataTable header={TableHeader} paginator rows={7} rowsPerPageOptions={[7, 10, 25, 50]} size="small"
             value={products} tableStyle={{ minWidth: '50rem' }}
