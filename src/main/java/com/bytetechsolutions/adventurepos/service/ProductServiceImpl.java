@@ -3,7 +3,7 @@ package com.bytetechsolutions.adventurepos.service;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import com.bytetechsolutions.adventurepos.domain.PagedRequest;
+import com.bytetechsolutions.adventurepos.domain.PagedSearchRequest;
 import com.bytetechsolutions.adventurepos.domain.PagedResponse;
 import com.bytetechsolutions.adventurepos.domain.ProductRecord;
 import com.bytetechsolutions.adventurepos.entitites.Product;
@@ -22,7 +22,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public PagedResponse<ProductRecord> findProducts(PagedRequest request) {
+    public PagedResponse<ProductRecord> findProducts(PagedSearchRequest request) {
         log.info("search products: {}", request);
         return PagedResponse.from(productRepository.findAll(PageRequest.of(request.page(), request.size()))
         .map(this::mapProductRecord));

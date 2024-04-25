@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 import { InputText } from "primereact/inputtext";
-import { Button } from "primereact/button";
 import useFetch from "../hooks/useFetch";
 
 
@@ -42,10 +41,19 @@ const StatusBadge = (row) => {
 }
 
 function ProductsTable() {
-    const { data } = useFetch("/api/products?page=0&size=100");
+    const [lazyState, setlazyState] = useState({
+        first: 0,
+        rows: 5,
+        page: 0,
+    });
+    const { data } = useFetch(`/api/products?page=${lazyState.page}&size=${lazyState.rows}`);
+
+    const onPage = (event) => {
+        setlazyState(event);
+    };
     return (
-        <DataTable header={TableHeader} paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]}
-            value={data?.content} tableStyle={{ minWidth: '50rem' }}
+        <DataTable header={TableHeader} lazy paginator rows={lazyState.rows} rowsPerPageOptions={[5, 10, 25, 50]}
+            value={data?.content} totalRecords={data?.totalElements} first={lazyState.first} onPage={onPage} tableStyle={{ minWidth: '50rem' }}
             paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink">
             <Column style={{ width: '20%' }} body={(row) => <ProductName {...row} />} header="Nombre del Producto"></Column>
             <Column field="price" header="Precio"></Column>
