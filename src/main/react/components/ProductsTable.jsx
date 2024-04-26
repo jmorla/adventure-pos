@@ -5,14 +5,16 @@ import { InputText } from "primereact/inputtext";
 import useFetch from "../hooks/useFetch";
 
 
-const TableHeader = () => {
+const TableHeader = ({ onSearch }) => {
+    const [search, setSearch] = useState();
+
     return (
         <div className="row">
             <div className="d-flex col justify-content-start">
                 <span className="p-input-icon-left">
-                    <InputText placeholder="Buscar productos" />
+                    <InputText placeholder="Buscar productos" onChange={(event) => setSearch(event.target.value)} />
                 </span>
-                <button className="btn btn-primary mx-2"><i className="bi bi-search"></i></button>
+                <button className="btn btn-primary mx-2" onClick={() => onSearch(search)}><i className="bi bi-search"></i></button>
             </div>
             <div className="d-flex col justify-content-end">
                 <button className="btn btn-outline-secondary mx-2"><i className="bi bi-card-checklist"></i> Gestionar Categorias</button>
@@ -41,18 +43,25 @@ const StatusBadge = (row) => {
 }
 
 function ProductsTable() {
+    const [search, setSearch] = useState(null);
     const [lazyState, setlazyState] = useState({
         first: 0,
         rows: 5,
         page: 0,
     });
-    const { data } = useFetch(`/api/products?page=${lazyState.page}&size=${lazyState.rows}`);
+    const params = new URLSearchParams();
+    params.append("page", lazyState.page);
+    params.append("size", lazyState.rows);
+    if (search) {
+        params.append("query", search)
+    }
+    const { data, loading } = useFetch(`/api/products?${params.toString()}`);
 
     const onPage = (event) => {
         setlazyState(event);
     };
     return (
-        <DataTable header={TableHeader} lazy paginator rows={lazyState.rows} rowsPerPageOptions={[5, 10, 25, 50]}
+        <DataTable loading={loading} header={<TableHeader onSearch={setSearch} />} lazy paginator rows={lazyState.rows} rowsPerPageOptions={[5, 10, 25, 50]}
             value={data?.content} totalRecords={data?.totalElements} first={lazyState.first} onPage={onPage} tableStyle={{ minWidth: '50rem' }}
             paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink">
             <Column style={{ width: '20%' }} body={(row) => <ProductName {...row} />} header="Nombre del Producto"></Column>

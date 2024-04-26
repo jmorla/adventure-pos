@@ -1,5 +1,7 @@
 package com.bytetechsolutions.adventurepos.service;
 
+import java.util.Objects;
+
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +26,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public PagedResponse<ProductRecord> findProducts(PagedSearchRequest request) {
         log.info("search products: {}", request);
-        return PagedResponse.from(productRepository.findAll(PageRequest.of(request.page(), request.size()))
+
+        String productName = request.getQuery();
+        if (productName != null && !productName.isBlank()) {
+            return PagedResponse.from(productRepository.findBySearch(productName,
+                PageRequest.of(request.getPage(), request.getSize())).map(this::mapProductRecord));
+        }
+        
+        return PagedResponse.from(productRepository.findAll(PageRequest.of(request.getPage(), request.getSize()))
         .map(this::mapProductRecord));
     }
 
