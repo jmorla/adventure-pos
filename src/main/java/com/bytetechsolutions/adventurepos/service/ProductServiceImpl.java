@@ -1,7 +1,5 @@
 package com.bytetechsolutions.adventurepos.service;
 
-import java.util.Objects;
-
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 

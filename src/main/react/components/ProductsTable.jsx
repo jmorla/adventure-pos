@@ -3,9 +3,11 @@ import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 import { InputText } from "primereact/inputtext";
 import useFetch from "../hooks/useFetch";
+import CategoryModal from "./CategoryModal";
+import { Button } from "react-bootstrap";
 
 
-const TableHeader = ({ onSearch }) => {
+const TableHeader = ({ onSearch, onClickManageCategories }) => {
     const [search, setSearch] = useState();
 
     return (
@@ -17,7 +19,9 @@ const TableHeader = ({ onSearch }) => {
                 <button className="btn btn-primary mx-2" onClick={() => onSearch(search)}><i className="bi bi-search"></i></button>
             </div>
             <div className="d-flex col justify-content-end">
-                <button className="btn btn-outline-secondary mx-2"><i className="bi bi-card-checklist"></i> Gestionar Categorias</button>
+                <button className="btn btn-outline-secondary mx-2" onClick={onClickManageCategories}>
+                    <i className="bi bi-card-checklist"></i> Gestionar Categorias
+                </button>
                 <button className="btn btn-primary"><i className="bi bi-bag-plus"></i> Crear producto</button>
             </div>
         </div>
@@ -43,6 +47,7 @@ const StatusBadge = (row) => {
 }
 
 function ProductsTable() {
+    const [showCategoryModal] = useState(true);
     const [search, setSearch] = useState(null);
     const [lazyState, setlazyState] = useState({
         first: 0,
@@ -61,17 +66,20 @@ function ProductsTable() {
         setlazyState(event);
     };
     return (
-        <DataTable loading={loading} header={<TableHeader onSearch={setSearch} />} lazy paginator rows={lazyState.rows} rowsPerPageOptions={[5, 10, 25, 50]}
-            value={data?.content} totalRecords={data?.totalElements} first={lazyState.first} onPage={onPage} tableStyle={{ minWidth: '50rem' }}
-            paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink">
-            <Column style={{ width: '20%' }} body={(row) => <ProductName {...row} />} header="Nombre del Producto"></Column>
-            <Column field="price" header="Precio"></Column>
-            <Column field="quantity" header="Cantidad"></Column>
-            <Column field="cost" header="Costo"></Column>
-            <Column field="category" header="Categoria"></Column>
-            <Column header="Status" body={(row) => <StatusBadge {...row} />}></Column>
-            <Column header="Acciones" body={(row) => <ActionsMenu {...row} />} />
-        </DataTable>
+        <>
+            <DataTable loading={loading} header={<TableHeader onSearch={setSearch} />} lazy paginator rows={lazyState.rows} rowsPerPageOptions={[5, 10, 25, 50]}
+                value={data?.content} totalRecords={data?.totalElements} first={lazyState.first} onPage={onPage} tableStyle={{ minWidth: '50rem' }}
+                paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink">
+                <Column style={{ width: '20%' }} body={(row) => <ProductName {...row} />} header="Nombre del Producto"></Column>
+                <Column field="price" header="Precio"></Column>
+                <Column field="quantity" header="Cantidad"></Column>
+                <Column field="cost" header="Costo"></Column>
+                <Column field="category" header="Categoria"></Column>
+                <Column header="Status" body={(row) => <StatusBadge {...row} />}></Column>
+                <Column header="Acciones" body={(row) => <ActionsMenu {...row} />} />
+            </DataTable>
+            <CategoryModal show={showCategoryModal} />
+        </>
     );
 }
 
