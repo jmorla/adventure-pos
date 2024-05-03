@@ -4,27 +4,30 @@ import { DataTable } from "primereact/datatable";
 import { InputText } from "primereact/inputtext";
 import useFetch from "../hooks/useFetch";
 import CategoryModal from "./CategoryModal";
-import { Button } from "react-bootstrap";
 
 
-const TableHeader = ({ onSearch, onClickManageCategories }) => {
+const TableHeader = ({ onSearch }) => {
     const [search, setSearch] = useState();
+    const [showCategoryModal, setShowCategoryModal] = useState(false);
 
     return (
-        <div className="row">
-            <div className="d-flex col justify-content-start">
-                <span className="p-input-icon-left">
-                    <InputText placeholder="Buscar productos" onChange={(event) => setSearch(event.target.value)} />
-                </span>
-                <button className="btn btn-primary mx-2" onClick={() => onSearch(search)}><i className="bi bi-search"></i></button>
+        <>
+            <div className="row">
+                <div className="d-flex col justify-content-start">
+                    <span className="p-input-icon-left">
+                        <InputText placeholder="Buscar productos" onChange={(event) => setSearch(event.target.value)} />
+                    </span>
+                    <button className="btn btn-primary mx-2" onClick={() => onSearch(search)}><i className="bi bi-search"></i></button>
+                </div>
+                <div className="d-flex col justify-content-end">
+                    <button className="btn btn-outline-secondary mx-2" onClick={setShowCategoryModal.bind(this, true)}>
+                        <i className="bi bi-card-checklist"></i> Gestionar Categorias
+                    </button>
+                    <button className="btn btn-primary"><i className="bi bi-bag-plus"></i> Crear producto</button>
+                </div>
             </div>
-            <div className="d-flex col justify-content-end">
-                <button className="btn btn-outline-secondary mx-2" onClick={onClickManageCategories}>
-                    <i className="bi bi-card-checklist"></i> Gestionar Categorias
-                </button>
-                <button className="btn btn-primary"><i className="bi bi-bag-plus"></i> Crear producto</button>
-            </div>
-        </div>
+            <CategoryModal show={showCategoryModal} onHide={() => setShowCategoryModal(false)} />
+        </>
     );
 };
 
@@ -47,7 +50,6 @@ const StatusBadge = (row) => {
 }
 
 function ProductsTable() {
-    const [showCategoryModal] = useState(true);
     const [search, setSearch] = useState(null);
     const [lazyState, setlazyState] = useState({
         first: 0,
@@ -78,7 +80,6 @@ function ProductsTable() {
                 <Column header="Status" body={(row) => <StatusBadge {...row} />}></Column>
                 <Column header="Acciones" body={(row) => <ActionsMenu {...row} />} />
             </DataTable>
-            <CategoryModal show={showCategoryModal} />
         </>
     );
 }
