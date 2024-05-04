@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 import { InputText } from "primereact/inputtext";
-import useFetch from "../hooks/useFetch";
 import CategoryModal from "./CategoryModal";
+import { useQuery } from "../hooks/useQuery";
+import { fetchProducts } from "../api/products";
 
 
 const TableHeader = ({ onSearch }) => {
@@ -56,13 +57,11 @@ function ProductsTable() {
         rows: 5,
         page: 0,
     });
-    const params = new URLSearchParams();
-    params.append("page", lazyState.page);
-    params.append("size", lazyState.rows);
-    if (search) {
-        params.append("query", search)
-    }
-    const { data, loading } = useFetch(`/api/products?${params.toString()}`);
+    const { data, loading, fetch } = useQuery(fetchProducts);
+    
+    useEffect(() => {
+        fetch({ page: lazyState.page, size: lazyState.rows, query: search });
+    }, [lazyState.first, lazyState.page, lazyState.rows, search])
 
     const onPage = (event) => {
         setlazyState(event);

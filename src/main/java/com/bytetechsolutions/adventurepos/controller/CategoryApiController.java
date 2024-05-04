@@ -5,12 +5,15 @@ import java.util.List;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bytetechsolutions.adventurepos.domain.CategoryRecord;
-import com.bytetechsolutions.adventurepos.mappers.CategoryMapper;
-import com.bytetechsolutions.adventurepos.repositories.CategoryRepository;
+import com.bytetechsolutions.adventurepos.domain.CategoryRequest;
+import com.bytetechsolutions.adventurepos.service.CategoryService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -21,14 +24,20 @@ import lombok.extern.log4j.Log4j2;
 @RequestMapping("/api/categories")
 public class CategoryApiController {
     
-    private final CategoryRepository categoryRepository;
-    private final CategoryMapper categoryMapper;
+    private final CategoryService categoryService;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<CategoryRecord>> getAllCategories() {
         log.info("getCategories called");
-        var categories = categoryRepository.findAll().stream().map(categoryMapper::mapToCategoryRecord).toList();
+        var categories = categoryService.findCategories();
         log.info("categories found: {}", categories);
         return ResponseEntity.ok(categories);
+    }
+
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> updateCategory(@PathVariable Integer id, @RequestBody CategoryRequest request) {
+        log.info("updateCategory called: {}");
+        categoryService.updateCategory(id, request);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -22,12 +22,7 @@ const useFetch = (url) => {
         };
 
         fetchData();
-
-        // Clean-up function to cancel the fetch request
-        return () => {
-            // Implement cancellation logic if needed
-        };
-    }, [url]);
+    }, []);
 
     return { data, loading, error };
 };
