@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 
-export default function useMutation(func) {
+export default function useMutation(func, options) {
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -14,6 +14,8 @@ export default function useMutation(func) {
                 setData(responseData);
             }
             setError(null);
+            console.log(options);
+            await options?.onSuccess();
         } catch (error) {
             setError(error);
         } finally {

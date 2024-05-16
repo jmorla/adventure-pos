@@ -10,4 +10,6 @@ public interface CategoryService {
     void updateCategory(Integer id, CategoryRequest request);
 
     List<CategoryRecord> findCategories();
+
+    void deleteCategory(Integer id);
 }

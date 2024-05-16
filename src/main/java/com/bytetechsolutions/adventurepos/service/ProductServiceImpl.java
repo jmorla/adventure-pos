@@ -36,9 +36,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private ProductRecord mapProductRecord(Product product) {
+        var category = product.getCategory();
+
         return new ProductRecord(product.getId().toString(), null, 
         product.getName(), product.getPrice(), product.getQuantity(), 
-                product.getCost(), product.getCategory().getName(), product.getStatus().name());
+                product.getCost(), category != null ? category.getName() : "<N/A>", product.getStatus().name());
     }
 
 }

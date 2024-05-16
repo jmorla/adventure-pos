@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.bytetechsolutions.adventurepos.domain.CategoryRecord;
 import com.bytetechsolutions.adventurepos.domain.CategoryRequest;
-import com.bytetechsolutions.adventurepos.domain.PagedSearchRequest;
 import com.bytetechsolutions.adventurepos.mappers.CategoryMapper;
 import com.bytetechsolutions.adventurepos.repositories.CategoryRepository;
 
@@ -32,8 +31,24 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryRecord> findCategories() {
         var categories = categoryRepository.findAll(
                 Sort.by("id").ascending())
-            .stream().map(categoryMapper::mapToCategoryRecord).toList();
+                .stream().map(categoryMapper::mapToCategoryRecord).toList();
         return categories;
     }
-    
+
+    @Override
+    public void deleteCategory(Integer id) {
+        try {
+            categoryRepository.findById(id).ifPresent(category -> {
+                var products = category.getProducts();
+                products.stream().forEach(product -> {
+                    product.setCategory(null);
+                });
+                categoryRepository.deleteById(id);
+            });
+
+        } catch (DataAccessException ex) {
+            System.out.println("Hello world");
+        }
+    }
+
 }

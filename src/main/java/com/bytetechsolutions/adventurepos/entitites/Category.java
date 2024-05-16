@@ -1,7 +1,10 @@
 package com.bytetechsolutions.adventurepos.entitites;
 
+import java.util.*;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,4 +21,7 @@ public class Category {
     private String name;
 
     private String description;
+
+    @OneToMany(mappedBy = "category")
+    private List<Product> products;
 }

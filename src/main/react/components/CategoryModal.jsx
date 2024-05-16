@@ -3,11 +3,12 @@ import { Button, Modal } from 'react-bootstrap'
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
-import { fetchCategories, updateCategory } from '../api/categories';
-import useMutation from '../hooks/useMutation';
+import { deleteCategory, fetchCategories, updateCategory } from '../api/categories';
 import { useQuery } from '../hooks/useQuery';
 import { Messages } from 'primereact/messages';
 import { confirmPopup, ConfirmPopup } from 'primereact/confirmpopup';
+import CategoryForm from './CategoryForm';
+import CategoryTable from './CategoryTable';
 
 const FieldEditor = (options) => {
     return <InputText size="sm" value={options.value || ""} onChange={(e) => options.editorCallback(e.target.value)} />
@@ -29,19 +30,27 @@ function buildSuccessUpdateMessage(e) {
 }
 
 export default function CategoryModal({ show, onHide }) {
-    const { data, loading: fetchCategoryLoading, fetch } = useQuery(fetchCategories);
-    const { mutate, loading: categoryUpdateLoading } = useMutation(updateCategory);
-    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [loading, setLoading] = useState(false);
     const messagesRef = useRef();
+    const [showForm, setShowForm] = useState(false);
 
-    const onEditComplete = (e) => {
-        mutate(e.newData)
-        messagesRef.current.show([
-            {
-                life: 3000, sticky: false, severity: 'success', summary: 'Categoria Actualizada', closable: false,
-                detail: buildSuccessUpdateMessage(e)
-            }
-        ])
+
+    const handleClose = () => {
+        setShowForm(false);
+        onHide();
+    }
+    const onDeleteCategory = () => {
+        setLoading(true);
+        deleteCategory(selectedCategory.id).then(() => (
+            messagesRef.current.show([
+                {
+                    life: 3000, sticky: false, severity: 'success', summary: 'Categoria Eliminada', closable: false,
+                    detail: "La categoria ha sido eliminada con exito"
+                }
+            ])
+        )).finally(() => setLoading(false));
+
     }
 
     const confirmDeleteCategory = (e) => {
@@ -50,45 +59,37 @@ export default function CategoryModal({ show, onHide }) {
             message: `Todos los productos asociados perderán su categorización.`,
             icon: 'pi pi-exclamation-triangle',
             defaultFocus: 'reject',
-            accept: () => console.log("Delete"),
-            reject: () => console.log("Reject"),
             acceptLabel: "Eliminar",
             rejectLabel: "Descartar",
-            acceptClassName: "btn btn-danger"
+            acceptClassName: "btn btn-danger",
+            reject: () => setSelectedCategory(null),
+            accept: onDeleteCategory
         })
     }
 
-    const showEdit = () =>
-        selectedProduct == null;
-
-    useEffect(() => {
-        if (!categoryUpdateLoading) {
-            fetch();
-        }
-        return () => setSelectedProduct(null);
-    }, [show, categoryUpdateLoading])
-
     return (
-        <Modal show={show} onHide={onHide} size='lg' backdrop="static">
+        <Modal show={show} onHide={handleClose} size='lg' backdrop="static">
             <Modal.Header closeButton>
                 <Modal.Title>Categorias de productos</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Messages ref={messagesRef} />
-                <DataTable onRowEditComplete={onEditComplete} editMode="row"
-                    dataKey="id" value={data} loading={fetchCategoryLoading} scrollable scrollHeight="400px"
-                    selection={selectedProduct} onSelectionChange={(e) => setSelectedProduct(e.value)}>
-                    <Column selectionMode="single" style={{ width: '1rem' }}></Column>
-                    <Column header="Nombre" style={{ width: '20%' }} editor={options => <FieldEditor {...options} />} field="name"></Column>
-                    <Column header="descripcion" style={{ width: '60%' }} editor={options => <FieldEditor {...options} />} field="description"></Column>
-                    <Column rowEditor={showEdit} headerStyle={{ width: '10%', minWidth: '8rem' }} bodyStyle={{ textAlign: 'center' }}></Column>
-                </DataTable>
+                {showForm ? <CategoryForm /> : <CategoryTable loading={loading} />}
             </Modal.Body>
             <Modal.Footer>
-                <ConfirmPopup style={{ zIndex: "1100" }} />
-                {selectedProduct ? (<Button onClick={confirmDeleteCategory} variant="danger"><i className='bi bi-trash'></i> Eliminar</Button>) :
-                    (<Button variant="primary"><i className='bi bi-plus'></i> Agregar Categoria</Button>)}
-                <Button variant="secondary" onClick={onHide}>Cerrar</Button>
+                {
+                    showForm ? (<>
+                        <Button variant="primary" onClick={handleClose}><i className='bi bi-plus'></i> Guardar</Button>
+                        <Button variant="secondary" onClick={handleClose}>Cancelar</Button>
+                    </>) : (
+                        <>
+                            <ConfirmPopup style={{ zIndex: "1100" }} />
+                            {selectedCategory ? (<Button onClick={confirmDeleteCategory} variant="danger"><i className='bi bi-trash'></i> Eliminar</Button>) :
+                                (<Button variant="primary" onClick={() => setShowForm(true)}><i className='bi bi-plus'></i> Agregar Categoria</Button>)}
+                            <Button variant="secondary" onClick={handleClose}>Cerrar</Button>
+                        </>
+                    )
+                }
             </Modal.Footer>
         </Modal>
     )

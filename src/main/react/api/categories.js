@@ -39,3 +39,21 @@ export async function fetchCategories() {
         throw error;
     }
 }
+
+export async function deleteCategory(id) {
+    const url = `/api/categories/${id}`;
+
+    try {
+        const response = await fetch(url, {
+            method: 'DELETE', // Using the DELETE HTTP method to delete the resource
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+    } catch (error) {
+        console.error('Error deleting category:', error);
+        throw error; // Propagate the error to the caller
+    }
+}
