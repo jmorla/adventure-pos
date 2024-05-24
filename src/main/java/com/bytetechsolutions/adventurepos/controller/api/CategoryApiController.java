@@ -1,4 +1,4 @@
-package com.bytetechsolutions.adventurepos.controller;
+package com.bytetechsolutions.adventurepos.controller.api;
 
 import java.util.List;
 
