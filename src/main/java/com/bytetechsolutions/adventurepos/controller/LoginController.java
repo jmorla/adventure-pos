@@ -11,6 +11,7 @@ public class LoginController {
 
     @GetMapping
     public ModelAndView handleGet(ModelAndView model) {
+        model.setViewName("login");
         return model;
     }
 }
