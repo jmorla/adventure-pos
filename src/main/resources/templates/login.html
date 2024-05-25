@@ -40,10 +40,12 @@
                                             </div>
                                         </h5>
                                     </div>
-                                    <div th:if="${param.error}" class="alert alert-danger bg-danger text-light border-0 show"
+                                    <div th:if="${param.error}" class="alert border-danger alert-dismissible fade show"
                                         role="alert">
-                                        <i class="bi bi-exclamation-octagon me-1"></i>
+                                        <i class="text-danger bi bi-exclamation-octagon me-1"></i>
                                         Usuario o contraseña invalidos
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
                                     </div>
                                     <form class="row g-3 needs-validation mt-1" th:action="@{/login}" method="POST"
                                         novalidate>
@@ -69,9 +71,10 @@
                                         </div>
 
                                         <div class="col-12" x-data="{ loading: false }">
-                                            <button class="btn btn-primary w-100" type="submit" @click="loading = true">
+                                            <button class="btn btn-primary w-100" type="submit" x-on:click="loading = true" x-bind:disabled="loading">
                                                 <span x-show="loading == false">Acceder</span>
-                                                <span class="spinner-border spinner-border-sm" aria-hidden="true" x-show="loading"></span>
+                                                <span class="spinner-border spinner-border-sm" aria-hidden="true"
+                                                    x-show="loading"></span>
                                             </button>
                                         </div>
                                     </form>
@@ -90,7 +93,6 @@
     </main>
 
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
     <script src="assets/js/main.js"></script>
 </body>
 
