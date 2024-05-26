@@ -12,6 +12,7 @@ public class ProductsController {
     
     @GetMapping
     public ModelAndView handleGet(ModelAndView model) {
+        model.setViewName("products/products");
         return model;
     } 
 }

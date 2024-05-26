@@ -34,7 +34,7 @@ public class SecurityConfig {
         .formLogin((form) -> form
                 .loginPage("/signIn")
                 .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/welcome", true)
+                .defaultSuccessUrl("/products", true)
                 .failureUrl("/signIn?error=true")
                 .permitAll())
         .csrf((csrf) -> csrf.disable());

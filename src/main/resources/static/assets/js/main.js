@@ -40,34 +40,6 @@
     })
   }
 
-  /**
-   * Search bar toggle
-   */
-  if (select('.search-bar-toggle')) {
-    on('click', '.search-bar-toggle', function (e) {
-      select('.search-bar').classList.toggle('search-bar-show')
-    })
-  }
-
-  /**
-   * Navbar links active state on scroll
-   */
-  let navbarlinks = select('#navbar .scrollto', true)
-  const navbarlinksActive = () => {
-    let position = window.scrollY + 200
-    navbarlinks.forEach(navbarlink => {
-      if (!navbarlink.hash) return
-      let section = select(navbarlink.hash)
-      if (!section) return
-      if (position >= section.offsetTop && position <= (section.offsetTop + section.offsetHeight)) {
-        navbarlink.classList.add('active')
-      } else {
-        navbarlink.classList.remove('active')
-      }
-    })
-  }
-  window.addEventListener('load', navbarlinksActive)
-  onscroll(document, navbarlinksActive)
 
   /**
    * Toggle .header-scrolled class to #header when page is scrolled
@@ -85,29 +57,6 @@
     onscroll(document, headerScrolled)
   }
 
-  /**
-   * Back to top button
-   */
-  let backtotop = select('.back-to-top')
-  if (backtotop) {
-    const toggleBacktotop = () => {
-      if (window.scrollY > 100) {
-        backtotop.classList.add('active')
-      } else {
-        backtotop.classList.remove('active')
-      }
-    }
-    window.addEventListener('load', toggleBacktotop)
-    onscroll(document, toggleBacktotop)
-  }
-
-  /**
-   * Initiate tooltips
-   */
-  var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-    return new bootstrap.Tooltip(tooltipTriggerEl)
-  })
 
   document.addEventListener('alpine:init', () => {
     Alpine.data('validate', (form) => ({
