@@ -1,46 +1,45 @@
-<table class="table mt-5" th:fragment="products-table">
-    <thead>
-        <tr>
-            <th scope="col">Nombre del Producto</th>
-            <th scope="col">Precio</th>
-            <th scope="col">Cantidad</th>
-            <th scope="col">Costo</th>
-            <th scope="col">Categoria</th>
-            <th scope="col">Status</th>
-            <th scope="col">Acciones</th>
-        </tr>
-    </thead>
-    <tbody id="products-content">
-        <div hx-get="/products/fetchProducts" 
-             hx-trigger="load"
-             hx-target="#products-content"
-             hx-swap="innerHTML"></div>
-    </tbody>
-</table>
+<div th:fragment="productsTable" id="product-table">
+    <div th:replace="~{/fragments/products :: header}"></div>
+    <table class="table table-hover mt-5">
+        <thead>
+            <tr>
+                <th scope="col">Nombre del Producto</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Costo</th>
+                <th scope="col">Categoria</th>
+                <th scope="col">Status</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="product : ${products}">
+                <td scope="row">
+                    <div class="d-flex align-items-center justify-content-start">
+                        <img src="assets/img/productos.png" alt="Product Image"
+                            class="img-thumbnail rounded product-image" />
+                        <span class="d-none d-md-block ps-2" th:text="${product.name}">Apple Watch S3</span>
+                    </div>
+                </td>
+                <td th:text="${product.price}">RD$2,750.00</td>
+                <td th:text="${product.quantity}">27</td>
+                <td th:text="${product.cost}">RD$1,900.00</td>
+                <th th:text="${product.category}">Accesorios</th>
+                <td><span class="badge text-bg-primary" th:text="${product.status}">Activo</span></td>
+                <td>
+                    <a th:href="@{/products/{id}(id=${product.id})}" type="button"
+                        class="btn btn-outline-secondary btn-sm btn-round">
+                        <i class="bi bi-three-dots-vertical"></i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div th:replace="~{/fragments/common :: pagination}"></div>
+</div>
 
-<!-- table row-->
 
-<tr th:fragment="fetchProducts" th:each="product : ${products}">
-    <td scope="row">
-        <div class="d-flex align-items-center justify-content-start">
-            <img th:src="@{${product.photoUrl}}" alt="Product Image" class="img-thumbnail rounded product-image" />
-            <span class="d-none d-md-block ps-2" th:text="${product.name}">Apple Watch S3</span>
-        </div>
-    </td>
-    <td th:text="${product.price}">RD$2,750.00</td>
-    <td th:text="${product.quantity}">27</td>
-    <td th:text="${product.cost}">RD$1,900.00</td>
-    <th th:text="${product.category}">Accesorios</th>
-    <td><span class="badge text-bg-primary" th:text="${product.status}">Activo</span></td>
-    <td>
-        <a th:href="@{/products/${product.id}}" type="button" class="btn btn-outline-secondary btn-sm">
-            <i class="bi bi-three-dots-vertical"></i>
-        </a>
-    </td>
-</tr>
-
-
-<div class="row" th:fragment="products-table-header">
+<div class="row" th:fragment="header">
     <div class="d-flex col justify-content-start">
         <span class="p-input-icon-left">
             <input class="form-control" placeholder="Buscar productos" />

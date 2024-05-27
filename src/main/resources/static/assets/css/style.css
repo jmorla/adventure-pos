@@ -1246,3 +1246,11 @@ h6 {
 .product-image {
   max-height: 40px !important;
 }
+
+.pagination .page-item .page-link {
+  border: none;
+}
+
+.btn-round {
+  border-radius: 50%;
+}

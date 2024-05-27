@@ -43,8 +43,8 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body py-4">
-                            <div th:replace="~{fragments/products :: products-table-header}"></div>
-                            <div th:replace="~{fragments/products :: products-table}"></div>
+                            <div hx-get="/products/fetchProducts?page=0&size=5" hx-trigger="load"
+                             hx-swap="innerHTML"></div>
                         </div>
                     </div>
                 </div>

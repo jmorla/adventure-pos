@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+    <nav class="d-flex justify-content-center" th:fragment="pagination">
+        <ul class="pagination">
+            <li class="page-item d-flex align-items-center">
+                <span class="px-2">Items por pagina:</span>
+            </li>
+            <li class="page-item px-1">
+                <select name="size" class="form-select" hx-get="/products/fetchProducts?page=0" hx-trigger="click"
+                    hx-swap="outerHTML" hx-target="#product-table">
+                    <option th:value="5" th:selected="${pageSize==5}">5</option>
+                    <option th:value="10" th:selected="${pageSize==10}">10</option>
+                    <option th:value="25" th:selected="${pageSize==25}">25</option>
+                    <option th:value="50" th:selected="${pageSize==50}">50</option>
+                </select>
+            </li>
+            <li class="page-item d-flex align-items-center">
+                <span class="px-2" th:text="${currentPageReport}"></span>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</body>
+
+</html>
