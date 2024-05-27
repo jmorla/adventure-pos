@@ -8,8 +8,8 @@
                 <span class="px-2">Items por pagina:</span>
             </li>
             <li class="page-item px-1">
-                <select name="size" class="form-select" hx-get="/products/fetchProducts?page=0" hx-trigger="click"
-                    hx-swap="outerHTML" hx-target="#product-table">
+                <select name="size" class="form-select" hx-get="/products/fetchProducts?page=0" hx-swap="outerHTML"
+                    hx-target="#product-table">
                     <option th:value="5" th:selected="${pageSize==5}">5</option>
                     <option th:value="10" th:selected="${pageSize==10}">10</option>
                     <option th:value="25" th:selected="${pageSize==25}">25</option>
@@ -19,13 +19,17 @@
             <li class="page-item d-flex align-items-center">
                 <span class="px-2" th:text="${currentPageReport}"></span>
             </li>
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
+            <li class="page-item" th:classappend="${pageNumber == 0} ? 'disabled' : ''">
+                <a class="page-link" href="#" aria-label="Previous"
+                    hx:get="@{/products/fetchProducts?page={page}&size={size}(page=${pageNumber - 1}, size=${pageSize})}"
+                    hx-swap="outerHTML" hx-trigger="click" hx-target="#product-table">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
+            <li class="page-item" th:classappend="${pageNumber == pages - 1} ? 'disabled' : ''">
+                <a class="page-link" href="#" aria-label="Next"
+                    hx:get="@{/products/fetchProducts?page={page}&size={size}(page=${pageNumber + 1}, size=${pageSize})}"
+                    hx-swap="outerHTML" hx-trigger="click" hx-target="#product-table">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>

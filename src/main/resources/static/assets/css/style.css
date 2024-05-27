@@ -1251,6 +1251,16 @@ h6 {
   border: none;
 }
 
+.pagination {
+  --bs-pagination-disabled-color: none;
+  --bs-pagination-disabled-bg: none;
+  --bs-pagination-disabled-border-color: none;
+}
+
+.pagination .page-item .page-link + .disabled {
+  background-color: none;
+}
+
 .btn-round {
   border-radius: 50%;
 }

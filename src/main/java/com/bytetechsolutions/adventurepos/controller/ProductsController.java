@@ -1,8 +1,7 @@
 package com.bytetechsolutions.adventurepos.controller;
 
-import java.util.List;
-
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,6 +10,7 @@ import com.bytetechsolutions.adventurepos.domain.PagedSearchRequest;
 import com.bytetechsolutions.adventurepos.service.ProductService;
 import com.bytetechsolutions.adventurepos.utils.PaginationUtils;
 
+import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest;
 import lombok.AllArgsConstructor;
 
 
@@ -27,14 +27,12 @@ public class ProductsController {
         return model;
     }
 
+    @HxRequest
     @GetMapping("/fetchProducts")
-    public ModelAndView fetchProducts(ModelAndView model, final PagedSearchRequest request) {
+    public String fetchProducts(Model model, final PagedSearchRequest request) {
         var paged = productService.findProducts(request);
-        model.addObject("products", paged.getContent());
-        model.addObject("pageNumber", request.getPage());
-        model.addObject("pageSize", request.getSize());
-        model.addObject("currentPageReport", PaginationUtils.buildPageReport(paged));
-        model.setViewName("fragments/products :: productsTable");
-        return model;
+        PaginationUtils.setDefaultPaginationAttributes(model, request, paged);
+
+        return "fragments/products :: productsTable";
     }
 }
