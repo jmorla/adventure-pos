@@ -1,19 +1,45 @@
 <div th:fragment="categoryModal">
     <div class="modal fade" id="categoryModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5">Categorias</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    ...
+                    <div th:replace="~{/fragments/categories :: categoriesTable}"></div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary">Nueva Categoria</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+<div th:fragment="categoriesTable">
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Description</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Bebidas</td>
+                <td>Bebidas Frias Refrescantes</td>
+                <td>
+                    <button class="btn btn-outline-secondary rounded-circle btn-sm">
+                        <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-outline-danger rounded-circle btn-sm">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>

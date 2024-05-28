@@ -20,14 +20,14 @@
                 <span class="px-2" th:text="${currentPageReport}"></span>
             </li>
             <li class="page-item" th:classappend="${pageNumber == 0} ? 'disabled' : ''">
-                <a class="page-link" href="#" aria-label="Previous"
+                <a class="page-link rounded-circle" href="#" aria-label="Previous"
                     hx:get="@{{baseUrl}?page={page}&size={size}&query={query}(page=${pageNumber - 1},size=${pageSize},query=${query},baseUrl=${baseUrl})}"
                     hx-swap="outerHTML" hx-trigger="click" hx-target="#product-table">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
             <li class="page-item" th:classappend="${pageNumber == pages - 1} ? 'disabled' : ''">
-                <a class="page-link" href="#" aria-label="Next"
+                <a class="page-link rounded-circle" href="#" aria-label="Next"
                     hx:get="@{{baseUrl}?page={page}&size={size}&query={query}(page=${pageNumber + 1},size=${pageSize},query=${query}, baseUrl=${baseUrl})}"
                     hx-swap="outerHTML" hx-trigger="click" hx-target="#product-table">
                     <span aria-hidden="true">&raquo;</span>

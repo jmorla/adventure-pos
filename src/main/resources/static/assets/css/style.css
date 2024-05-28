@@ -1260,7 +1260,3 @@ h6 {
 .pagination .page-item .page-link + .disabled {
   background-color: none;
 }
-
-.btn-round {
-  border-radius: 50%;
-}
