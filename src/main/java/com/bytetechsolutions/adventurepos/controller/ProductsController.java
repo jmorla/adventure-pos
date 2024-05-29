@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.bytetechsolutions.adventurepos.domain.PagedSearchRequest;
 import com.bytetechsolutions.adventurepos.service.ProductService;
-import com.bytetechsolutions.adventurepos.utils.PaginationUtils;
+import com.bytetechsolutions.adventurepos.utils.AttributesUtils;
 
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest;
 import lombok.AllArgsConstructor;
@@ -31,7 +31,8 @@ public class ProductsController {
     @GetMapping("/fetchProducts")
     public String fetchProducts(Model model, final PagedSearchRequest request) {
         var paged = productService.findProducts(request);
-        PaginationUtils.setDefaultPaginationAttributes(model, request, paged);
+        model.addAttribute("products", paged.getContent());
+        AttributesUtils.setDefaultPaginationAttributes(model, request, paged);
 
         return "fragments/products :: productsTable";
     }

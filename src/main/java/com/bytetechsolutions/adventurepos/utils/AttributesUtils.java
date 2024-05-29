@@ -5,7 +5,10 @@ import org.springframework.ui.Model;
 import com.bytetechsolutions.adventurepos.domain.PagedResponse;
 import com.bytetechsolutions.adventurepos.domain.PagedSearchRequest;
 
-public class PaginationUtils {
+import lombok.Builder;
+import lombok.Getter;
+
+public class AttributesUtils {
     
     public static String buildPageReport(PagedResponse<?> pageInfo) {
         var currentPage = pageInfo.getCurrentPage();
@@ -19,11 +22,32 @@ public class PaginationUtils {
     }
 
     public static void setDefaultPaginationAttributes(Model model, PagedSearchRequest request, PagedResponse<?> response) {
-        model.addAttribute("products", response.getContent());
         model.addAttribute("pageNumber", request.getPage());
         model.addAttribute("pageSize", request.getSize());
         model.addAttribute("pages", response.getTotalPages());
-        model.addAttribute("currentPageReport", PaginationUtils.buildPageReport(response));
+        model.addAttribute("currentPageReport", AttributesUtils.buildPageReport(response));
         model.addAttribute("query", request.getQuery());
+    }
+
+    public static void setMessageAttributes(Model model, MessageAttributes attributes) {
+        model.addAttribute("message", attributes);
+    }
+
+    @Builder
+    @Getter
+    public static class MessageAttributes {
+        private Severity severity;
+        private String summary;
+        private String details;
+        private String icon;
+
+        public enum Severity {
+            INFO, WARNING, ERROR, SUCCESS;
+    
+            @Override
+            public String toString() {
+                return this.name().toLowerCase();
+            }
+        }
     }
 }

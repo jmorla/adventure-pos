@@ -1,45 +1,85 @@
 <div th:fragment="categoryModal">
     <div class="modal fade" id="categoryModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5">Categorias</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div th:replace="~{/fragments/categories :: categoriesTable}"></div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary">Nueva Categoria</button>
-                </div>
-            </div>
+            <div class="modal-content" id="categoryContent"></div>
         </div>
     </div>
 </div>
 
+
 <div th:fragment="categoriesTable">
-    <table class="table table-sm">
-        <thead>
-            <tr>
-                <th scope="col">Nombre</th>
-                <th scope="col">Description</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Bebidas</td>
-                <td>Bebidas Frias Refrescantes</td>
-                <td>
-                    <button class="btn btn-outline-secondary rounded-circle btn-sm">
-                        <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-outline-danger rounded-circle btn-sm">
-                        <i class="bi bi-trash"></i>
-                    </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="modal-header">
+        <h1 class="modal-title fs-5">Categorias</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <div th:if="${message != null}" class="alert border-success alert-dismissible fade show" role="alert">
+            <i class="text-success bi bi-exclamation-octagon me-1"></i>
+            Usuario o contraseña invalidos
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Description</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="category : ${categories}">
+                    <td th:text="${category.name}"></td>
+                    <td th:text="${category.description}"></td>
+                    <td>
+                        <button hx:get="@{/categories/categoryForm?id={id}(id=${category.id})}" hx-trigger="click"
+                            hx-target="#categoryContent" hx-swap="innerHTML"
+                            class="btn btn-outline-secondary rounded-circle btn-sm">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <button class="btn btn-outline-danger rounded-circle btn-sm">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary">Nueva Categoria</button>
+    </div>
+</div>
+
+
+<div th:fragment="categoryForm">
+    <form novalidate th:object="${category}" x-data="validate($el)" class="needs-validation" hx-put="/categories"
+        hx-swap="innerHTML" hx-target="#categoryContent">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5">Editar Categoria</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="mb-3">
+                <label for="name" class="form-label">Nombre</label>
+                <input type="text" class="form-control invalid" id="name" aria-describedby="nameHelp" th:field="*{name}"
+                    required>
+                <div class="invalid-feedback">
+                    Por favor ingrese el nombre de categoria.
+                </div>
+                <div id="nameHelp" class="form-text">El cambio de nombre afecta a todos los productos de esta categoría.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Descripcion</label>
+                <input type="text" class="form-control" id="description" th:field="*{description}" required>
+                <div class="invalid-feedback">
+                    Por favor ingrese una descripcion a la categoria.
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary" x-on:click="loading = true">Actualizar</button>
+        </div>
+    </form>
 </div>

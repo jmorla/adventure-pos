@@ -40,9 +40,8 @@
 
 
 <div class="row" th:fragment="header">
-    <form hx-swap="outerHTML"
-          hx-target="#product-table"
-          hx:get="@{/products/fetchProducts?page=0&size={size}(size=${pageSize})}" class="col">
+    <form hx-swap="outerHTML" hx-target="#product-table"
+        hx:get="@{/products/fetchProducts?page=0&size={size}(size=${pageSize})}" class="col">
         <div class="d-flex col justify-content-start">
             <span class="p-input-icon-left">
                 <input name="query" class="form-control" th:value="${query}" placeholder="Buscar productos" />
@@ -53,7 +52,8 @@
         </div>
     </form>
     <div class="d-flex col justify-content-end">
-        <button class="btn btn-outline-secondary mx-2" data-bs-toggle="modal" data-bs-target="#categoryModal">
+        <button class="btn btn-outline-secondary mx-2" data-bs-toggle="modal" data-bs-target="#categoryModal"
+            hx-get="/categories/categoriesTable" hx-trigger="click" hx-swap="innerHTML" hx-target="#categoryContent">
             <i class="bi bi-card-checklist"></i> Gestionar Categorias
         </button>
         <button class="btn btn-primary"><i class="bi bi-bag-plus"></i> Crear producto</button>

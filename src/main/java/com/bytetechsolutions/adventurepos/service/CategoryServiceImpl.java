@@ -1,6 +1,7 @@
 package com.bytetechsolutions.adventurepos.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Sort;
@@ -49,6 +50,12 @@ public class CategoryServiceImpl implements CategoryService {
         } catch (DataAccessException ex) {
             System.out.println("Hello world");
         }
+    }
+
+    @Override
+    public Optional<CategoryRecord> findById(Integer id) {
+        return categoryRepository.findById(id)
+            .map(categoryMapper::mapToCategoryRecord);
     }
 
 }
