@@ -13,11 +13,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
     <div class="modal-body">
-        <div th:if="${message != null}" class="alert border-success alert-dismissible fade show" role="alert">
-            <i class="text-success bi bi-exclamation-octagon me-1"></i>
-            Usuario o contraseña invalidos
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+        <div th:replace="~{fragments/common :: message}"></div>
         <table class="table table-sm">
             <thead>
                 <tr>
@@ -52,7 +48,8 @@
 
 
 <div th:fragment="categoryForm">
-    <form novalidate th:object="${category}" x-data="validate($el)" class="needs-validation" hx-put="/categories"
+    <form novalidate th:object="${category}" x-data="validate($el)" class="needs-validation" 
+        hx:put="@{/categories/{id}(id=${category.id})}"
         hx-swap="innerHTML" hx-target="#categoryContent">
         <div class="modal-header">
             <h1 class="modal-title fs-5">Editar Categoria</h1>
@@ -79,7 +76,10 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-primary" x-on:click="loading = true">Actualizar</button>
+            <button type="submit" class="btn btn-primary" x-on:click="loading = true">
+                Actualizar
+                <span x-show="loading" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+            </button>
         </div>
     </form>
 </div>

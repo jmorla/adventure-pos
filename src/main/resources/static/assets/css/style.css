@@ -1260,3 +1260,14 @@ h6 {
 .pagination .page-item .page-link + .disabled {
   background-color: none;
 }
+
+.loading-indicator {
+  display: none;
+}
+
+.htmx-request .loading-indicator {
+  display:inline;
+}
+.htmx-request.loading-indicator {
+  display:inline;
+}

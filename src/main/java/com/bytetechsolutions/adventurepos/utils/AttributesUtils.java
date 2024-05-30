@@ -29,7 +29,7 @@ public class AttributesUtils {
         model.addAttribute("query", request.getQuery());
     }
 
-    public static void setMessageAttributes(Model model, MessageAttributes attributes) {
+    public static void setGlobalMessage(Model model, MessageAttributes attributes) {
         model.addAttribute("message", attributes);
     }
 
@@ -40,9 +40,10 @@ public class AttributesUtils {
         private String summary;
         private String details;
         private String icon;
+        private boolean dismissible;
 
         public enum Severity {
-            INFO, WARNING, ERROR, SUCCESS;
+            INFO, WARNING, DANGER, SUCCESS;
     
             @Override
             public String toString() {

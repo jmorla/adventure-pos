@@ -2,6 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <body>
+    
+    <div th:fragment="message" th:if="${message != null}" class="alert fade show"
+        th:classappend="|${message.dismissible}? alert-dismissible border-${message.severity}|" role="alert">
+        <span class="d-block fw-bold">
+            <i class="me-1" th:classappend="|text-${message.severity} ${message.icon}|"></i>
+            [[${message.summary}]]
+        </span>
+        <span>[[${message.details}]]</span>
+        <button th:if="${message.dismissible}" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+
     <nav class="d-flex justify-content-center" th:fragment="pagination (baseUrl)">
         <ul class="pagination">
             <li class="page-item d-flex align-items-center">
