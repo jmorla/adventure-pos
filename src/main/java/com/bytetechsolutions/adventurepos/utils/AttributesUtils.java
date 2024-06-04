@@ -33,6 +33,16 @@ public class AttributesUtils {
         model.addAttribute("message", attributes);
     }
 
+    public static void setDefaultGlobalError(Model model, String errorMessage) {
+        AttributesUtils.setGlobalMessage(model, MessageAttributes.builder()
+                .summary("Error al realizar accion")
+                .details(errorMessage)
+                .severity(MessageAttributes.Severity.DANGER)
+                .icon("bi bi-exclamation-triangle")
+                .dismissible(true)
+                .build());
+    }
+
     @Builder
     @Getter
     public static class MessageAttributes {

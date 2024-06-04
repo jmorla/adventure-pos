@@ -8,7 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.bytetechsolutions.adventurepos.domain.CategoryRecord;
-import com.bytetechsolutions.adventurepos.domain.CategoryRequest;
+import com.bytetechsolutions.adventurepos.domain.CategoryUpdateRequest;
 import com.bytetechsolutions.adventurepos.exception.AdventureException;
 import com.bytetechsolutions.adventurepos.exception.EntityNotFoundException;
 import com.bytetechsolutions.adventurepos.mappers.CategoryMapper;
@@ -24,7 +24,8 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryMapper categoryMapper;
 
     @Override
-    public void updateCategory(Integer id, CategoryRequest request) {
+    public void updateCategory(CategoryUpdateRequest request) {
+        var id = request.id();
         var category = categoryMapper.map(request);
 
         categoryRepository.findById(id).orElseThrow(EntityNotFoundException::new);

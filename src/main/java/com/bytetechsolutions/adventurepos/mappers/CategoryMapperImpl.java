@@ -3,7 +3,7 @@ package com.bytetechsolutions.adventurepos.mappers;
 import org.springframework.stereotype.Component;
 
 import com.bytetechsolutions.adventurepos.domain.CategoryRecord;
-import com.bytetechsolutions.adventurepos.domain.CategoryRequest;
+import com.bytetechsolutions.adventurepos.domain.CategoryUpdateRequest;
 import com.bytetechsolutions.adventurepos.entitites.Category;
 
 @Component
@@ -18,14 +18,14 @@ public class CategoryMapperImpl implements CategoryMapper {
     }
 
     @Override
-    public Category map(CategoryRequest request) {
+    public Category map(CategoryUpdateRequest request) {
         if (request == null) {
             return null;
         }
 
         Category category = new Category();
-        category.setName(request.getName());
-        category.setDescription(request.getDescription());
+        category.setName(request.name());
+        category.setDescription(request.description());
 
         return category;
     }
