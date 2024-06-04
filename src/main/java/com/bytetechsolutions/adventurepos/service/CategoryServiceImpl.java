@@ -8,14 +8,15 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.bytetechsolutions.adventurepos.domain.CategoryRecord;
-import com.bytetechsolutions.adventurepos.domain.CategoryUpdateRequest;
+import com.bytetechsolutions.adventurepos.domain.CategoryUpdateForm;
 import com.bytetechsolutions.adventurepos.exception.AdventureException;
-import com.bytetechsolutions.adventurepos.exception.EntityNotFoundException;
 import com.bytetechsolutions.adventurepos.mappers.CategoryMapper;
 import com.bytetechsolutions.adventurepos.repositories.CategoryRepository;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 @Service
 @AllArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
@@ -24,17 +25,23 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryMapper categoryMapper;
 
     @Override
-    public void updateCategory(CategoryUpdateRequest request) {
-        var id = request.id();
-        var category = categoryMapper.map(request);
+    public void updateCategory(CategoryUpdateForm request) {
+        var categoryToUpdate = categoryRepository.findById(request.id())
+                .orElseThrow(() -> new AdventureException("Categoria no encontrada",
+                        "La entidad solicitada %s no fue encontrada".formatted(request.name())));
 
-        categoryRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        
+        var category = categoryRepository.findByNameIgnoreCase(request.name());
+        if (category.isPresent() && (category.get().getId() != request.id())) {
+            throw new AdventureException("Error al actualizar",
+                    "Ya existe una categoria con el mismo nombre");
+        }
+
+        categoryMapper.merge(categoryToUpdate, request);
         try {
-            category.setId(id);
-            categoryRepository.save(category);
+            categoryRepository.save(categoryToUpdate);
         } catch (DataAccessException ex) {
-            throw new AdventureException(ex);
+            log.trace("An error ocurred while updating category", ex);
+            throw new AdventureException();
         }
     }
 
@@ -65,7 +72,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Optional<CategoryRecord> findById(Integer id) {
         return categoryRepository.findById(id)
-            .map(categoryMapper::mapToCategoryRecord);
+                .map(categoryMapper::mapToCategoryRecord);
     }
 
 }

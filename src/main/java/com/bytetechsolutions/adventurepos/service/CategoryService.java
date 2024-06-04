@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 import com.bytetechsolutions.adventurepos.domain.CategoryRecord;
-import com.bytetechsolutions.adventurepos.domain.CategoryUpdateRequest;
+import com.bytetechsolutions.adventurepos.domain.CategoryUpdateForm;
 
 public interface CategoryService {
     
-    void updateCategory(CategoryUpdateRequest request);
+    void updateCategory(CategoryUpdateForm request);
 
     List<CategoryRecord> findCategories();
 

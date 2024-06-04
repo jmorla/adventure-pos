@@ -5,22 +5,19 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bytetechsolutions.adventurepos.domain.CategoryRecord;
-import com.bytetechsolutions.adventurepos.domain.CategoryUpdateRequest;
+import com.bytetechsolutions.adventurepos.domain.CategoryUpdateForm;
 import com.bytetechsolutions.adventurepos.exception.AdventureException;
 import com.bytetechsolutions.adventurepos.service.CategoryService;
 import com.bytetechsolutions.adventurepos.utils.AttributesUtils;
 import com.bytetechsolutions.adventurepos.utils.AttributesUtils.MessageAttributes;
-import com.bytetechsolutions.adventurepos.validators.CategoryRequestValidator;
+import com.bytetechsolutions.adventurepos.validators.CategoryUpdateFormValidator;
 
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest;
 import lombok.AllArgsConstructor;
@@ -33,8 +30,6 @@ import lombok.extern.log4j.Log4j2;
 public class CategoryController {
 
     private final CategoryService categoryService;
-
-    private final CategoryRequestValidator categoryRequestValidator;
 
     @HxRequest
     @GetMapping("/categoriesTable")
@@ -55,31 +50,22 @@ public class CategoryController {
     @HxRequest
     @PutMapping
     public String updateCategoryForm(Model model,
-            @Validated @ModelAttribute("category") CategoryUpdateRequest request, BindingResult result) {
+            @Validated @ModelAttribute("category") CategoryUpdateForm request, BindingResult result) {
         log.info("modifyCategory: {}", request);
 
-        ValidationUtils.invokeValidator(categoryRequestValidator, request, result);
-        if (result.hasFieldErrors()) {
+        ValidationUtils.invokeValidator(new CategoryUpdateFormValidator(), request, result);
+        if (result.hasErrors()) {
             model.addAttribute("category", request);
-            return "fragments/categories :: categoryForm";
-        }
-        if (result.hasGlobalErrors()) {
-            var globalError = result.getGlobalError();
-            model.addAttribute("category", request);
-            AttributesUtils.setDefaultGlobalError(model, globalError.getDefaultMessage());
             return "fragments/categories :: categoryForm";
         }
         try {
             categoryService.updateCategory(request);
-            AttributesUtils.setGlobalMessage(model, MessageAttributes.builder()
-                    .summary("Categoria actualizada")
-                    .details("¡La categoría ha sido actualizada con éxito!")
-                    .severity(MessageAttributes.Severity.SUCCESS)
-                    .icon("bi bi-check-circle")
-                    .dismissible(true)
-                    .build());
+            AttributesUtils.setGlobalSuccessMessage(model, "Categoria actualizada",
+                    "¡La categoría ha sido actualizada con éxito!");
         } catch (AdventureException ex) {
-            AttributesUtils.setDefaultGlobalError(model, "¡Hubo un problema al actualizar la categoría!");
+            model.addAttribute("category", request);
+            AttributesUtils.setGlobalErrorMessage(model, ex.getSummary(), ex.getDetails());
+            return "fragments/categories :: categoryForm";
         }
 
         return getCategoriesTable(model);

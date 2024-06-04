@@ -33,12 +33,22 @@ public class AttributesUtils {
         model.addAttribute("message", attributes);
     }
 
-    public static void setDefaultGlobalError(Model model, String errorMessage) {
+    public static void setGlobalErrorMessage(Model model, String summary, String details) {
         AttributesUtils.setGlobalMessage(model, MessageAttributes.builder()
-                .summary("Error al realizar accion")
-                .details(errorMessage)
+                .summary(summary)
+                .details(details)
                 .severity(MessageAttributes.Severity.DANGER)
                 .icon("bi bi-exclamation-triangle")
+                .dismissible(true)
+                .build());
+    }
+
+    public static void setGlobalSuccessMessage(Model model, String summary, String details) {
+        AttributesUtils.setGlobalMessage(model, MessageAttributes.builder()
+                .summary(summary)
+                .details(details)
+                .severity(MessageAttributes.Severity.SUCCESS)
+                .icon("bi bi-check-circle")
                 .dismissible(true)
                 .build());
     }
