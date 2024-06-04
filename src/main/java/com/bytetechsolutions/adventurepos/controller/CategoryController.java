@@ -1,6 +1,5 @@
 package com.bytetechsolutions.adventurepos.controller;
 
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +8,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.bytetechsolutions.adventurepos.domain.CategoryRecord;
 import com.bytetechsolutions.adventurepos.domain.CategoryRequest;
 import com.bytetechsolutions.adventurepos.exception.AdventureException;
 import com.bytetechsolutions.adventurepos.service.CategoryService;
@@ -38,7 +38,8 @@ public class CategoryController {
     @HxRequest
     @GetMapping("/categoryForm")
     public String getCategoryForm(Model model, @RequestParam(required = false) Integer id) {
-        categoryService.findById(id).ifPresent(category -> model.addAttribute("category", category));
+        categoryService.findById(id).ifPresentOrElse(category -> model.addAttribute("category", category),
+                () -> model.addAttribute("category", new CategoryRecord(0, null, null)));
         return "fragments/categories :: categoryForm";
     }
 

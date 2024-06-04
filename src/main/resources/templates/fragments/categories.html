@@ -1,7 +1,12 @@
 <div th:fragment="categoryModal">
     <div class="modal fade" id="categoryModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-scrollable">
-            <div class="modal-content" id="categoryContent"></div>
+            <div class="loading-container">
+                <div class="modal-content" id="categoryContent">
+                    <div class="placeholder-modal"></div>
+                </div>
+                <div th:replace="~{fragments/common :: loadingIndicator(indicatorId = 'category-loading-indicator')}"></div>
+            </div>
         </div>
     </div>
 </div>
@@ -28,8 +33,9 @@
                     <td th:text="${category.description}"></td>
                     <td>
                         <button hx:get="@{/categories/categoryForm?id={id}(id=${category.id})}" hx-trigger="click"
-                            hx-target="#categoryContent" hx-swap="innerHTML"
-                            class="btn btn-outline-secondary rounded-circle btn-sm">
+                            hx-indicator="#spinner" hx-target="#categoryContent" hx-swap="innerHTML"
+                            class="btn btn-outline-secondary rounded-circle btn-sm"
+                            @htmx:after-request="loading = false" @htmx:before-request="loading = true">
                             <i class="bi bi-pencil"></i>
                         </button>
                         <button class="btn btn-outline-danger rounded-circle btn-sm">
@@ -42,15 +48,17 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary">Nueva Categoria</button>
+        <button type="button" class="btn btn-primary" hx:get="@{/categories/categoryForm}"
+            hx-trigger="click" hx-indicator="#spinner" hx-target="#categoryContent" hx-swap="innerHTML">Nueva
+            Categoria</button>
     </div>
 </div>
 
 
 <div th:fragment="categoryForm">
-    <form novalidate th:object="${category}" x-data="validate($el)" class="needs-validation" 
-        hx:put="@{/categories/{id}(id=${category.id})}"
-        hx-swap="innerHTML" hx-target="#categoryContent">
+    <form novalidate th:object="${category}" x-data="validate($el)" class="needs-validation"
+        hx:put="@{/categories/{id}(id=${category.id})}" hx-swap="innerHTML" hx-target="#categoryContent"
+        hx-indicator="#updateCategorySpinner">
         <div class="modal-header">
             <h1 class="modal-title fs-5">Editar Categoria</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -76,9 +84,10 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-primary" x-on:click="loading = true">
+            <button type="submit" class="btn btn-primary" hx-disabled-elt="this">
                 Actualizar
-                <span x-show="loading" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                <span id="updateCategorySpinner" class="loading-indicator spinner-border spinner-border-sm"
+                    aria-hidden="true"></span>
             </button>
         </div>
     </form>

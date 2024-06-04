@@ -2,7 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <body>
-    
+
+    <div th:fragment="loadingIndicator(indicatorId)" th:id="${indicatorId}" class="loading-indicator">
+        <div class="spinner-border text-dark" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <span role="status">Loading...</span>
+    </div>
+
     <div th:fragment="message" th:if="${message != null}" class="alert fade show"
         th:classappend="|${message.dismissible}? alert-dismissible border-${message.severity}|" role="alert">
         <span class="d-block fw-bold">
@@ -10,7 +17,8 @@
             [[${message.summary}]]
         </span>
         <span>[[${message.details}]]</span>
-        <button th:if="${message.dismissible}" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button th:if="${message.dismissible}" type="button" class="btn-close" data-bs-dismiss="alert"
+            aria-label="Close"></button>
     </div>
 
 
@@ -20,7 +28,8 @@
                 <span class="px-2">Items por pagina:</span>
             </li>
             <li class="page-item px-1">
-                <select name="size" class="form-select" hx:get="@{{baseUrl}?page=0&query={query}(query=${query}, baseUrl=${baseUrl})}" hx-swap="outerHTML"
+                <select name="size" class="form-select"
+                    hx:get="@{{baseUrl}?page=0&query={query}(query=${query}, baseUrl=${baseUrl})}" hx-swap="outerHTML"
                     hx-target="#product-table">
                     <option th:value="5" th:selected="${pageSize==5}">5</option>
                     <option th:value="10" th:selected="${pageSize==10}">10</option>
@@ -48,4 +57,5 @@
         </ul>
     </nav>
 </body>
+
 </html>

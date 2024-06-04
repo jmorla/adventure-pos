@@ -23,7 +23,7 @@
     <link href="assets/css/style.css" rel="stylesheet">
 </head>
 
-<body>
+<body class="loading-container">
     <div th:replace="~{fragments/layout :: header}"></div>
     <div th:replace="~{fragments/layout :: sidebar}"></div>
 
@@ -43,15 +43,16 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body py-4">
-                            <div hx-get="/products/fetchProducts?page=0&size=5" hx-trigger="load"
-                             hx-swap="innerHTML"></div>
+                            <div hx-get="/products/fetchProducts?page=0&size=5" hx-trigger="load" 
+                                hx-swap="innerHTML" hx-indicator="#product-loading-indicator"></div>
+                            <div th:replace="~{fragments/common :: loadingIndicator(indicatorId = 'product-loading-indicator')}"></div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
     </main>
-    
+
     <div th:replace="~{fragments/layout :: footer}"></div>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js" defer></script>
     <script src="assets/js/main.js" defer></script>
@@ -60,4 +61,5 @@
 
 
 </body>
+
 </html>
