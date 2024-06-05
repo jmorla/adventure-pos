@@ -5,14 +5,14 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import com.bytetechsolutions.adventurepos.domain.CategoryUpdateForm;
+import com.bytetechsolutions.adventurepos.domain.CategoryForm;
 
 
-public class CategoryUpdateFormValidator implements Validator {
+public class CategoryFormValidator implements Validator {
 
     @Override
     public boolean supports(@NonNull Class<?> clazz) {
-        return CategoryUpdateForm.class.equals(clazz);
+        return CategoryForm.class.isAssignableFrom(clazz);
     }
 
     @Override

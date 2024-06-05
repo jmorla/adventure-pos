@@ -7,6 +7,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.bytetechsolutions.adventurepos.domain.CategoryCreateForm;
 import com.bytetechsolutions.adventurepos.domain.CategoryRecord;
 import com.bytetechsolutions.adventurepos.domain.CategoryUpdateForm;
 import com.bytetechsolutions.adventurepos.exception.AdventureException;
@@ -74,6 +75,24 @@ public class CategoryServiceImpl implements CategoryService {
     public Optional<CategoryRecord> findById(Integer id) {
         return categoryRepository.findById(id)
                 .map(categoryMapper::mapToCategoryRecord);
+    }
+
+    @Override
+    public void createCategory(CategoryCreateForm form) {
+        var category = categoryRepository.findByNameIgnoreCase(form.name());
+        if (category.isPresent()) {
+            throw new AdventureException("Error al crear categoria",
+                    "Ya existe una categoria con el mismo nombre");
+        }
+        
+        var categoryToCreate = categoryMapper.map(form);
+
+        try {
+            categoryRepository.save(categoryToCreate);
+        } catch (DataAccessException ex) {
+            log.trace("Unexpected error while creating category", ex);
+            throw new AdventureException();
+        }
     }
 
 }

@@ -77,8 +77,8 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary" hx:get="@{/categories/categoryForm}" hx-trigger="click"
-            hx-indicator="#spinner" hx-target="#categoryContent" hx-swap="innerHTML">Nueva
+        <button type="button" class="btn btn-primary" hx:get="@{/categories/createCategoryForm}" hx-trigger="click"
+            hx-indicator="#category-loading-indicator" hx-target="#categoryContent" hx-swap="innerHTML">Nueva
             Categoria</button>
     </div>
 </div>
@@ -117,6 +117,42 @@
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             <button type="submit" class="btn btn-primary">Actualizar</button>
+        </div>
+    </form>
+</div>
+
+<div th:fragment="createCategoryForm">
+    <form novalidate th:object="${category}" hx:post="@{/categories}" hx-swap="innerHTML" hx-target="#categoryContent"
+        hx-indicator="#category-loading-indicator">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5">Agregar Categoria</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div th:replace="~{fragments/common :: message}"></div>
+            <div class="mb-3">
+                <label for="name" class="form-label">Nombre</label>
+                <input type="text" class="form-control" th:classappend="${#fields.hasErrors('name')} ? 'is-invalid': ''"
+                    id="name" aria-describedby="nameHelp" th:field="*{name}" required>
+                <div class="invalid-feedback">
+                    Por favor ingrese el nombre de categoria.
+                </div>
+                <div id="nameHelp" class="form-text">Los nombres categoría no pueden repetirse.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Descripcion</label>
+                <input type="text" class="form-control"
+                    th:classappend="${#fields.hasErrors('description')} ? 'is-invalid': ''" id="description"
+                    th:field="*{description}" required>
+                <div class="invalid-feedback">
+                    Por favor ingrese una descripcion a la categoria.
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary">Guardar Categoria</button>
         </div>
     </form>
 </div>

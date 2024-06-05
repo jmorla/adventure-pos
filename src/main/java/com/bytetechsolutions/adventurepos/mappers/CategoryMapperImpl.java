@@ -2,6 +2,7 @@ package com.bytetechsolutions.adventurepos.mappers;
 
 import org.springframework.stereotype.Component;
 
+import com.bytetechsolutions.adventurepos.domain.CategoryCreateForm;
 import com.bytetechsolutions.adventurepos.domain.CategoryRecord;
 import com.bytetechsolutions.adventurepos.domain.CategoryUpdateForm;
 import com.bytetechsolutions.adventurepos.entitites.Category;
@@ -37,6 +38,19 @@ public class CategoryMapperImpl implements CategoryMapper {
         }
         category.setName(form.name());
         category.setDescription(form.description());
+    }
+
+    @Override
+    public Category map(CategoryCreateForm request) {
+        if (request == null) {
+            return null;
+        }
+
+        Category category = new Category();
+        category.setName(request.name());
+        category.setDescription(request.description());
+
+        return category;
     }
     
 }

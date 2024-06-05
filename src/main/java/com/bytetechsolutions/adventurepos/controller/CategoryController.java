@@ -9,16 +9,18 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.bytetechsolutions.adventurepos.domain.CategoryCreateForm;
 import com.bytetechsolutions.adventurepos.domain.CategoryRecord;
 import com.bytetechsolutions.adventurepos.domain.CategoryUpdateForm;
 import com.bytetechsolutions.adventurepos.exception.AdventureException;
 import com.bytetechsolutions.adventurepos.service.CategoryService;
 import com.bytetechsolutions.adventurepos.utils.AttributesUtils;
-import com.bytetechsolutions.adventurepos.validators.CategoryUpdateFormValidator;
+import com.bytetechsolutions.adventurepos.validators.CategoryFormValidator;
 
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest;
 import lombok.AllArgsConstructor;
@@ -49,6 +51,13 @@ public class CategoryController {
     }
 
     @HxRequest
+    @GetMapping("/createCategoryForm")
+    public String getCreateCategoryForm(Model model) {
+        model.addAttribute("category", new CategoryCreateForm("", ""));
+        return "fragments/categories :: createCategoryForm";
+    }
+
+    @HxRequest
     @GetMapping("/deleteCategoryForm")
     public String deleteCategoryForm(Model model, @RequestParam Integer id) {
         categoryService.findById(id).ifPresent(category -> model.addAttribute("data",
@@ -64,12 +73,34 @@ public class CategoryController {
     }
 
     @HxRequest
+    @PostMapping
+    public String createCategory(Model model, @ModelAttribute("category") CategoryCreateForm form,
+            BindingResult result) {
+        ValidationUtils.invokeValidator(new CategoryFormValidator(), form, result);
+        if (result.hasErrors()) {
+            model.addAttribute("category", form);
+            return "fragments/categories :: createCategoryForm";
+        }
+        try {
+            categoryService.createCategory(form);
+            AttributesUtils.setGlobalSuccessMessage(model, "Categoria actualizada",
+                    "¡La categoría ha sido actualizada con éxito!");
+        } catch (AdventureException ex) {
+            model.addAttribute("category", form);
+            AttributesUtils.setGlobalErrorMessage(model, ex.getSummary(), ex.getDetails());
+            return "fragments/categories :: createCategoryForm";
+        }
+
+        return getCategoriesTable(model);
+    }
+
+    @HxRequest
     @PutMapping
     public String updateCategory(Model model,
             @Validated @ModelAttribute("category") CategoryUpdateForm request, BindingResult result) {
         log.info("modifyCategory: {}", request);
 
-        ValidationUtils.invokeValidator(new CategoryUpdateFormValidator(), request, result);
+        ValidationUtils.invokeValidator(new CategoryFormValidator(), request, result);
         if (result.hasErrors()) {
             model.addAttribute("category", request);
             return "fragments/categories :: categoryForm";
