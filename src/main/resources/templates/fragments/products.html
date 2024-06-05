@@ -39,7 +39,7 @@
 </div>
 
 
-<div class="row" th:fragment="header" x-data="{ loading: true }">
+<div class="row" th:fragment="header">
     <form hx-swap="outerHTML" hx-target="#product-table"
         hx:get="@{/products/fetchProducts?page=0&size={size}(size=${pageSize})}" class="col">
         <div class="d-flex col justify-content-start">

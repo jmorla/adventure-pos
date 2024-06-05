@@ -65,7 +65,8 @@ public class CategoryServiceImpl implements CategoryService {
             });
 
         } catch (DataAccessException ex) {
-            System.out.println("Hello world");
+            log.trace("An error ocurred while deleting category", ex);
+            throw new AdventureException();
         }
     }
 

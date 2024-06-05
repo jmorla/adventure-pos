@@ -5,8 +5,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,7 +18,6 @@ import com.bytetechsolutions.adventurepos.domain.CategoryUpdateForm;
 import com.bytetechsolutions.adventurepos.exception.AdventureException;
 import com.bytetechsolutions.adventurepos.service.CategoryService;
 import com.bytetechsolutions.adventurepos.utils.AttributesUtils;
-import com.bytetechsolutions.adventurepos.utils.AttributesUtils.MessageAttributes;
 import com.bytetechsolutions.adventurepos.validators.CategoryUpdateFormValidator;
 
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest;
@@ -48,8 +49,23 @@ public class CategoryController {
     }
 
     @HxRequest
+    @GetMapping("/deleteCategoryForm")
+    public String deleteCategoryForm(Model model, @RequestParam Integer id) {
+        categoryService.findById(id).ifPresent(category -> model.addAttribute("data",
+                "{ name: '%s', typedName: '', match: false }".formatted(category.name())).addAttribute("id", id));
+        return "fragments/categories :: deleteCategoryForm";
+    }
+
+    @HxRequest
+    @DeleteMapping("/{id}")
+    public String deleteCategory(Model model, @PathVariable Integer id) {
+        categoryService.deleteCategory(id);
+        return getCategoriesTable(model);
+    }
+
+    @HxRequest
     @PutMapping
-    public String updateCategoryForm(Model model,
+    public String updateCategory(Model model,
             @Validated @ModelAttribute("category") CategoryUpdateForm request, BindingResult result) {
         log.info("modifyCategory: {}", request);
 
