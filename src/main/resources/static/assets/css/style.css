@@ -1279,11 +1279,23 @@ h6 {
   display: flex;
 }
 
-
 .loading-container {
   position: relative;
 }
 
 .placeholder-modal {
   height: 200px;
+}
+
+.empty-state {
+  height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.empty-state img {
+  height: 7rem;
 }

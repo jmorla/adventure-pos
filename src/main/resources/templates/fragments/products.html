@@ -1,41 +1,52 @@
 <div th:fragment="productsTable" id="product-table">
     <div th:replace="~{/fragments/products :: header}"></div>
-    <table class="table table-hover mt-5">
-        <thead>
-            <tr>
-                <th scope="col">Nombre del Producto</th>
-                <th scope="col">Precio</th>
-                <th scope="col">Cantidad</th>
-                <th scope="col">Costo</th>
-                <th scope="col">Categoria</th>
-                <th scope="col">Status</th>
-                <th scope="col">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="product : ${products}">
-                <td scope="row">
-                    <div class="d-flex align-items-center justify-content-start">
-                        <img src="assets/img/productos.png" alt="Product Image"
-                            class="img-thumbnail rounded product-image" />
-                        <span class="d-none d-md-block ps-2" th:text="${product.name}">Apple Watch S3</span>
-                    </div>
-                </td>
-                <td th:text="${product.price}">RD$2,750.00</td>
-                <td th:text="${product.quantity}">27</td>
-                <td th:text="${product.cost}">RD$1,900.00</td>
-                <th th:text="${product.category}">Accesorios</th>
-                <td><span class="badge text-bg-primary" th:text="${product.status}">Activo</span></td>
-                <td>
-                    <a th:href="@{/products/{id}(id=${product.id})}" type="button"
-                        class="btn btn-outline-secondary btn-sm rounded-circle">
-                        <i class="bi bi-three-dots-vertical"></i>
-                    </a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <div th:replace="~{/fragments/common :: pagination (baseUrl = '/products/fetchProducts')}"></div>
+    <div th:if="${!products.isEmpty()}">
+        <table class="table table-hover mt-5">
+            <thead>
+                <tr>
+                    <th scope="col">Nombre del Producto</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Costo</th>
+                    <th scope="col">Categoria</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="product : ${products}">
+                    <td scope="row">
+                        <div class="d-flex align-items-center justify-content-start">
+                            <img src="assets/img/productos.png" alt="Product Image"
+                                class="img-thumbnail rounded product-image" />
+                            <span class="d-none d-md-block ps-2" th:text="${product.name}"></span>
+                        </div>
+                    </td>
+                    <td th:text="${product.price}"></td>
+                    <td th:text="${product.quantity}"></td>
+                    <td th:text="${product.cost}"></td>
+                    <th th:text="${product.category}"></th>
+                    <td><span class="badge text-bg-primary" th:text="${product.status}"></span></td>
+                    <td>
+                        <a th:href="@{/products/{id}(id=${product.id})}" type="button"
+                            class="btn btn-outline-secondary btn-sm rounded-circle">
+                            <i class="bi bi-three-dots-vertical"></i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div th:replace="~{/fragments/common :: pagination (baseUrl = '/products/fetchProducts')}"></div>
+    </div>
+    <div th:if="${products.isEmpty()}">
+        <div class="container">
+            <div class="empty-state">
+                <img src="assets/img/products.svg"/>
+                <h2>Aún no has creado ningún producto</h2>
+                <p>Los productos que añades podras verlos aquí.</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 
@@ -54,7 +65,8 @@
     <div class="d-flex col justify-content-end">
         <button @htmx:after-request="loading = false" @htmx:before-request="loading = true"
             class="btn btn-outline-secondary mx-2" data-bs-toggle="modal" data-bs-target="#categoryModal"
-            hx-get="/categories/categoriesTable" hx-trigger="click" hx-swap="innerHTML" hx-target="#categoryContent" hx-indicator="#category-loading-indicator">
+            hx-get="/categories/categoriesTable" hx-trigger="click" hx-swap="innerHTML" hx-target="#categoryContent"
+            hx-indicator="#category-loading-indicator">
             <i class="bi bi-card-checklist"></i> Gestionar Categorias
         </button>
         <button class="btn btn-primary"><i class="bi bi-bag-plus"></i> Crear producto</button>
