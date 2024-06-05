@@ -68,7 +68,13 @@ public class CategoryController {
     @HxRequest
     @DeleteMapping("/{id}")
     public String deleteCategory(Model model, @PathVariable Integer id) {
-        categoryService.deleteCategory(id);
+        try {
+            categoryService.deleteCategory(id);
+            AttributesUtils.setGlobalSuccessMessage(model, "Categoria eliminada",
+                    "¡La categoría ha sido eliminada con éxito!");
+        } catch (AdventureException ex) {
+            AttributesUtils.setGlobalErrorMessage(model, ex.getSummary(), ex.getDetails());
+        }
         return getCategoriesTable(model);
     }
 
