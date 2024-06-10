@@ -36,4 +36,10 @@ public class ProductsController {
 
         return "fragments/products :: productsTable";
     }
+
+    @GetMapping("/create")
+    public ModelAndView createProducts(ModelAndView model) {
+        model.setViewName("products/createProduct");
+        return model;
+    } 
 }
