@@ -11,7 +11,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.RequestHeaderRequestMatcher;
 
+import io.github.wimdeblauwe.htmx.spring.boot.security.HxRefreshHeaderAuthenticationEntryPoint;
 
 @Configuration
 @EnableWebSecurity
@@ -27,18 +29,20 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-        .authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/signIn","/error","*.js", "*.css", "/img/**").permitAll()
+        http.authorizeHttpRequests((requests) -> requests
+                .requestMatchers("/signIn", "/error", "*.js", "*.css", "/img/**", "assets/**").permitAll()
                 .anyRequest().authenticated())
-        .formLogin((form) -> form
-                .loginPage("/signIn")
-                .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/welcome", true)
-                .failureUrl("/signIn?error=true")
-                .permitAll())
-        .csrf((csrf) -> csrf.disable());
+                .formLogin((form) -> form
+                        .loginPage("/signIn")
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/products", true)
+                        .failureUrl("/signIn?error=true")
+                        .permitAll())
+                .csrf((csrf) -> csrf.disable());
 
+        var entryPoint = new HxRefreshHeaderAuthenticationEntryPoint();
+        var requestMatcher = new RequestHeaderRequestMatcher("HX-Request");
+        http.exceptionHandling(exception -> exception.defaultAuthenticationEntryPointFor(entryPoint, requestMatcher));
         return http.build();
     }
 

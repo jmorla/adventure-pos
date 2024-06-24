@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+    <div th:fragment="loadingIndicator(indicatorId)" th:id="${indicatorId}" class="loading-indicator">
+        <div class="spinner-border text-dark" role="status">
+        </div>
+        <span role="status">Loading...</span>
+    </div>
+
+    <div th:fragment="message" th:if="${message != null}" class="alert fade show"
+        th:classappend="|${message.dismissible}? alert-dismissible border-${message.severity}|" role="alert">
+        <span class="d-block fw-bold">
+            <i class="me-1" th:classappend="|text-${message.severity} ${message.icon}|"></i>
+            [[${message.summary}]]
+        </span>
+        <span>[[${message.details}]]</span>
+        <button th:if="${message.dismissible}" type="button" class="btn-close" data-bs-dismiss="alert"
+            aria-label="Close"></button>
+    </div>
+
+
+    <nav class="d-flex justify-content-center" th:fragment="pagination (baseUrl)">
+        <ul class="pagination">
+            <li class="page-item d-flex align-items-center">
+                <span class="px-2">Items por pagina:</span>
+            </li>
+            <li class="page-item px-1">
+                <select name="size" class="form-select"
+                    hx:get="@{{baseUrl}?page=0&query={query}(query=${query}, baseUrl=${baseUrl})}" hx-swap="outerHTML"
+                    hx-target="#product-table">
+                    <option th:value="5" th:selected="${pageSize==5}">5</option>
+                    <option th:value="10" th:selected="${pageSize==10}">10</option>
+                    <option th:value="25" th:selected="${pageSize==25}">25</option>
+                    <option th:value="50" th:selected="${pageSize==50}">50</option>
+                </select>
+            </li>
+            <li class="page-item d-flex align-items-center">
+                <span class="px-2" th:text="${currentPageReport}"></span>
+            </li>
+            <li class="page-item" th:classappend="${pageNumber == 0} ? 'disabled' : ''">
+                <a class="page-link rounded-circle" href="#" aria-label="Previous"
+                    hx:get="@{{baseUrl}?page={page}&size={size}&query={query}(page=${pageNumber - 1},size=${pageSize},query=${query},baseUrl=${baseUrl})}"
+                    hx-swap="outerHTML" hx-trigger="click" hx-target="#product-table">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item" th:classappend="${pageNumber == pages - 1} ? 'disabled' : ''">
+                <a class="page-link rounded-circle" href="#" aria-label="Next"
+                    hx:get="@{{baseUrl}?page={page}&size={size}&query={query}(page=${pageNumber + 1},size=${pageSize},query=${query}, baseUrl=${baseUrl})}"
+                    hx-swap="outerHTML" hx-trigger="click" hx-target="#product-table">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</body>
+
+</html>

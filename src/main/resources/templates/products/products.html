@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Productos | AdventurePOS</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet">
+
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+</head>
+
+<body class="loading-container">
+    <div th:replace="~{fragments/layout :: header}"></div>
+    <div th:replace="~{fragments/layout :: sidebar}"></div>
+
+    <main id="main" class="main">
+        <div class="pagetitle">
+            <h1>Productos</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Productos</li>
+                </ol>
+            </nav>
+        </div>
+
+        <section class="section">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body py-4">
+                            <div th:replace="~{/fragments/categories :: categoryModal}"></div>
+                            <div hx-get="/products/fetchProducts?page=0&size=5" hx-trigger="load" 
+                                hx-swap="innerHTML" hx-indicator="#product-loading-indicator"></div>
+                            <div th:replace="~{fragments/common :: loadingIndicator(indicatorId = 'product-loading-indicator')}"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div th:replace="~{fragments/layout :: footer}"></div>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js" defer></script>
+    <script src="assets/js/main.js" defer></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <script src="https://unpkg.com/htmx.org@1.9.12" crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>
