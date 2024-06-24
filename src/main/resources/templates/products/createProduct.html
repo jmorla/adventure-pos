@@ -29,28 +29,76 @@
 
     <main id="main" class="main">
         <div class="pagetitle">
-            <h1>Productos</h1>
+            <h1>Agregar Producto</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
                     <li class="breadcrumb-item"><a href="/products">Productos</a></li>
-                    <li class="breadcrumb-item active">Crear producto</li>
+                    <li class="breadcrumb-item active">Agregar producto</li>
                 </ol>
             </nav>
         </div>
 
         <section class="section">
             <div class="row">
-                <div class="col-lg-8 col-md-12">
-                    <div class="card">
-                        <div class="card-body container p-5">
-                            <div th:replace="~{fragments/products :: createProductForm}"></div>
-                            <div
-                                th:replace="~{fragments/common :: loadingIndicator(indicatorId = 'product-loading-indicator')}">
+                <div class="card">
+                    <div class="card-body container">
+                        <h4 class="mt-5">Informacion General</h4>
+                        <div class="mt-3">
+                            <label for="productName" class="form-label">Nombre del producto</label>
+                            <input type="text" class="form-control" id="productName" name="productName" required>
+                            <div class="form-text">Use un nombre corto y claro.
                             </div>
+                        </div>
+                        <div class="mt-3">
+                            <label for="category" class="form-label">Categoría</label>
+                            <select id="category" name="category" class="form-select" required></select>
+                            <div class="form-text">Seleccione la categoría a la que pertenece el producto.</div>
+                        </div>
+                        <div class="mt-3">
+                            <label for="uom" class="form-label">Unidad de Medida (UOM)</label>
+                            <select id="uom" name="uom" class="form-select" required></select>
+                            <div class="form-text">Especifique la unidad de medida del producto (ej. kg, litros,
+                                unidades).</div>
+                        </div>
+                        <div class="mt-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea id="description" name="description" class="form-control" rows="3"
+                                required></textarea>
+                            <div class="form-text">
+                                Proporcione una descripción corta y clara del producto.
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mt-3">
+                                    <label for="purchasePrice" class="form-label">Precio de compra</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">RD$</span>
+                                        <input type="number" class="form-control" id="purchasePrice"
+                                            name="purchasePrice" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="mt-3">
+                                    <label for="salePrice" class="form-label">Precio de venta</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">RD$</span>
+                                        <input type="number" class="form-control" id="salePrice" name="salePrice"
+                                            required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between mt-5">
+                            <button type="button" class="btn btn-outline-secondary mx-2">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Crear producto</button>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div th:replace="~{fragments/common :: loadingIndicator(indicatorId = 'product-loading-indicator')}">
             </div>
         </section>
     </main>
