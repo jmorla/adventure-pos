@@ -7,6 +7,7 @@ import com.bytetechsolutions.adventurepos.domain.PagedSearchRequest;
 import com.bytetechsolutions.adventurepos.domain.PagedResponse;
 import com.bytetechsolutions.adventurepos.domain.ProductRecord;
 import com.bytetechsolutions.adventurepos.entitites.Product;
+import com.bytetechsolutions.adventurepos.mappers.ProductMapper;
 import com.bytetechsolutions.adventurepos.repositories.ProductRepository;
 
 import lombok.extern.log4j.Log4j2;
@@ -16,9 +17,11 @@ import lombok.extern.log4j.Log4j2;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductMapper productMapper;
 
-    public ProductServiceImpl(ProductRepository productRepository) {
+    public ProductServiceImpl(ProductMapper productMapper, ProductRepository productRepository) {
         this.productRepository = productRepository;
+        this.productMapper = productMapper;
     }
 
     @Override
@@ -28,19 +31,11 @@ public class ProductServiceImpl implements ProductService {
         String productName = request.getQuery();
         if (productName != null && !productName.isBlank()) {
             return PagedResponse.from(productRepository.findBySearch(productName,
-                PageRequest.of(request.getPage(), request.getSize())).map(this::mapProductRecord));
+                PageRequest.of(request.getPage(), request.getSize())).map(productMapper::mapProductRecord));
         }
         
         return PagedResponse.from(productRepository.findAll(PageRequest.of(request.getPage(), request.getSize()))
-        .map(this::mapProductRecord));
-    }
-
-    private ProductRecord mapProductRecord(Product product) {
-        var category = product.getCategory();
-
-        return new ProductRecord(product.getId().toString(), null, 
-        product.getName(), product.getPrice(), product.getQuantity(), 
-                product.getCost(), category != null ? category.getName() : "<N/A>", product.getStatus().name());
+        .map(productMapper::mapProductRecord));
     }
 
 }

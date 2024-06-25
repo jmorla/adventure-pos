@@ -1,5 +1,15 @@
 package com.bytetechsolutions.adventurepos.domain;
 
-public record ProductRecord(String id, String photoUrl, String name, double price, int quantity, double cost,
-        String category, String status) {
+public record ProductRecord(
+                String id,
+                String sku,
+                String imageUrl,
+                String name,
+                String price,
+                int quantity,
+                String cost,
+                String category,
+                String status,
+                String uom
+        ) {
 }

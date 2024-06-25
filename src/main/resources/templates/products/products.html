@@ -44,7 +44,7 @@
                     <div class="card">
                         <div class="card-body py-4">
                             <div th:replace="~{/fragments/categories :: categoryModal}"></div>
-                            <div hx-get="/products/fetchProducts?page=0&size=5" hx-trigger="load" 
+                            <div hx-get="/products/fetchProducts?page=0&size=7" hx-trigger="load" 
                                 hx-swap="innerHTML" hx-indicator="#product-loading-indicator"></div>
                             <div th:replace="~{fragments/common :: loadingIndicator(indicatorId = 'product-loading-indicator')}"></div>
                         </div>

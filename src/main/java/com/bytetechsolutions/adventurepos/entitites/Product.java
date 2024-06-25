@@ -28,6 +28,8 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    private String sku;
+
     @Column(name = "product_name")
     private String name;
 
@@ -36,6 +38,10 @@ public class Product {
     private int quantity;
 
     private double cost;
+
+    private String imageUrl;
+
+    private String uom;
 
     @Enumerated(EnumType.STRING)
     private ProductStatus status;
